@@ -1,0 +1,52 @@
+{% extends "farmer_app/base/header.html" %}
+{% block title %}
+    Kayıt Ol Sayfası
+{% endblock title %}
+{% block content %}
+    <div>
+        <div class="login_wrapper">
+            <div class="animate form login_form">
+                <section class="login_content">
+                    <form>
+                        <h1>Hesap Oluştur</h1>
+                        <div>
+                            <input type="text" class="form-control"
+                                   placeholder="Kullanıcı adı" required=""/>
+                        </div>
+                        <div>
+                            <input type="email" class="form-control"
+                                   placeholder="Email" required=""/>
+                        </div>
+                        <div>
+                            <input type="password" class="form-control"
+                                   placeholder="Şifre" required=""/>
+                        </div>
+                        <div>
+                            <a class="btn btn-default submit"
+                               href="{% url 'index' %}">Kayıt Ol</a>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <div class="separator">
+                            <p class="change_link">Zaten üye misiniz?
+                                <a href="{% url 'login' %}"
+                                   class="to_register"> Giriş
+                                    Yap </a>
+                            </p>
+
+                            <div class="clearfix"></div>
+                            <br/>
+
+                            <div>
+                                <h1>Bisfora Teknoloji</h1>
+                                <p>©2021 All Rights Reserved.Privacy and
+                                    Terms</p>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
