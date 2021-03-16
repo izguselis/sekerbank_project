@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from .forms import ListForm
+from .models import Category
+
 
 # Create your views here.
-from farmer_app.models import Category
-
-
 def login(request):
     class_name = "login"
     return render(request, "farmer_app/pages/login.html",
@@ -30,9 +31,18 @@ def index(request):
 
 def category(request):
     class_name = "nav-md"
-    category_list = Category.objects.all()
-    return render(request, "farmer_app/pages/category.html",
-                  {"class": class_name, "category_list": category_list})
+    if request.method == "POST":
+        form = ListForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            category_list = Category.objects.all()
+            return render(request, "farmer_app/pages/category.html",
+                          {"class": class_name,
+                           "category_list": category_list})
+    else:
+        category_list = Category.objects.all()
+        return render(request, "farmer_app/pages/category.html",
+                      {"class": class_name, "category_list": category_list})
 
 
 def product(request):
@@ -43,5 +53,35 @@ def product(request):
 
 def add_category(request):
     class_name = "nav-md"
-    return render(request, "farmer_app/pages/add_category.html",
-                  {"class": class_name})
+    if request.method == "POST":
+        form = ListForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            category_list = Category.objects.all()
+            return render(request, "farmer_app/pages/add_category.html",
+                          {"class": class_name,
+                           "category_list": category_list})
+    else:
+        category_list = Category.objects.all()
+        return render(request, "farmer_app/pages/add_category.html",
+                      {"class": class_name,
+                       "category_list": category_list})
+
+
+def delete_category(request, Category_id):
+    deleted_category = Category.objects.get(pk=Category_id)
+    deleted_category.delete()
+    return redirect("category")
+
+
+def update_category(request, Category_id):
+    if request.method == "POST":
+        updated_category = Category.objects.get(pk=Category_id)
+        form = ListForm(request.POST or None, instance=updated_category)
+        if form.is_valid():
+            form.save()
+            return redirect("category")
+    else:
+        category_list = Category.objects.all()
+        return render(request, "farmer_app/pages/update_category.html",
+                      {"category_list": category_list})

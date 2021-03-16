@@ -22,30 +22,52 @@
                             </div>
                             <div class="x_content">
                                 <br/>
-                                <form id="demo-form2" data-parsley-validate
+                                <form method="POST"
                                       class="form-horizontal form-label-left">
+                                    {% csrf_token %}
                                     <div class="item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3 label-align"
-                                               for="first-name">Kategori Adı
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="first-name"
-                                                   class="form-control ">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">
+                                            Kategori Adı </label>
+                                        <div class="col-md-6 col-sm-6">
+                                            <input type="text"
+                                                   class="form-control"
+                                                   name="category_name">
                                         </div>
                                     </div>
 
                                     <div class="item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Kategori
-                                            Durumu</label>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"
-                                                       class="flat"
-                                                       checked="checked">
-                                                Aktif
-                                            </label>
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">
+                                            Kategori Resmi </label>
+                                        <div class="btn-group">
+                                            <a class="btn"
+                                               title="Insert picture (or just drag & drop)"
+                                               id="pictureBtn">
+                                                <i class="fa fa-picture-o"></i></a>
+                                            <input type="file"
+                                                   data-role="magic-overlay"
+                                                   data-target="#pictureBtn"
+                                                   data-edit="insertImage"
+                                                   name="category_image"/>
                                         </div>
                                     </div>
+
+                                    <div class="item form-group">
+                                        <div class="col-form-label col-md-3 col-sm-3 label-align">
+                                            Kategori Durumu
+                                        </div>
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="checkbox">
+                                                <input class="flat"
+                                                       type="checkbox"
+                                                       name="status"
+                                                       checked="checked">
+                                                <label class="form-check-label">
+                                                    Aktif
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="ln_solid"></div>
                                     <div class="item form-group">
                                         <div class="col-md-6 col-sm-6 offset-md-4">
@@ -53,12 +75,13 @@
                                                     class="btn btn-success">
                                                 Kaydet
                                             </button>
-                                            <button class="btn btn-primary"
-                                                    type="button">İptal
-                                            </button>
+                                            <a class="btn btn-primary"
+                                               type="button"
+                                               href="{% url 'category' %}">
+                                                İptal
+                                            </a>
                                         </div>
                                     </div>
-
                                 </form>
                             </div>
                         </div>

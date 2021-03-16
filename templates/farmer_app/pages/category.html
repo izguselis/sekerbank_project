@@ -1,4 +1,6 @@
 {% extends "farmer_app/base/header.html" %}
+{% load static %}
+
 {% block title %}
     Kategoriler Sayfası
 {% endblock title %}
@@ -42,17 +44,25 @@
                                             <tbody>
                                             {% for category in category_list %}
                                                 <tr>
-                                                    <td>-</td>
+                                                    <td align="center"><img
+                                                            width="75"
+                                                            height="75"
+                                                            src="{{ category.category_image }}"/>
+                                                    </td>
                                                     <td>{{ category.category_name }}</td>
-                                                    <td>{{ category.status }}</td>
+                                                    {% if category.status %}
+                                                        <td> Aktif</td>
+                                                    {% else %}
+                                                        <td> Pasif</td>
+                                                    {% endif %}
                                                     <td>
                                                         <a class="modal-with-form"
                                                            href="#"><i
                                                                 class="fa fa-shopping-cart"></i></a>
                                                         <a class="modal-with-form"
-                                                           href="#"><i
+                                                           href="{% url 'update_category' category.id %}"><i
                                                                 class="fa fa-pencil"></i></a>
-                                                        <a href=""
+                                                        <a href="{% url 'delete_category' category.id %}"
                                                            class="delete-row"><i
                                                                 class="fa fa-trash-o"></i></a>
                                                     </td>
