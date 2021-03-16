@@ -1,7 +1,6 @@
 from django.db import models
 import os
 
-
 # Create your models here.
 def upload_form(instace, filename):
     return os.path.join('uploads/photo/', filename)
