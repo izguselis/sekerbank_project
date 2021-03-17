@@ -1,18 +1,26 @@
 import itertools
 
-from django.db.models import Q
 import django_tables2 as tables
 from .models import *
-from django_tables2.utils import A
 
 
 class ProductTable(tables.Table):
     counter = tables.Column(verbose_name='#', empty_values=(), orderable=False)
+    edit = tables.TemplateColumn(
+        template_name='farmer_app/base/table_buttons.html')
 
     class Meta:
         model = Product
-        fields = ('name_tr', 'status', 'price', 'photo')
-        sequence = ('name_tr', 'status', 'price', 'photo')
+        fields = (
+            'photo', 'category', 'name_tr', 'status', 'price', 'edit')
+        sequence = (
+            'counter', 'photo', 'category', 'name_tr', 'status', 'price')
+        attrs = {
+            "class": "table table-striped table-bordered dt-responsive nowrap",
+            "id": "datatable-responsive",
+            "cellspacing": "0",
+            "width": "100%"
+        }
 
     def render_counter(self):
         self.row_counter = getattr(self, 'row_counter', itertools.count())
