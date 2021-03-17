@@ -1,4 +1,3 @@
-from . import views
 from django.urls import path
 
 from . import views
@@ -15,4 +14,6 @@ urlpatterns = [
          name="delete_category"),
     path('update_category/<Category_id>', views.update_category,
          name="update_category"),
+    path('add_cart/<Category_id>', views.add_cart, name="add_cart"),
+    path('cart/', views.cart, name="cart"),
 ]

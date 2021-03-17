@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from .forms import ListForm
+from .forms import *
 from .models import Category
 
 
@@ -75,6 +75,7 @@ def delete_category(request, Category_id):
 
 
 def update_category(request, Category_id):
+    class_name = "nav-md"
     if request.method == "POST":
         updated_category = Category.objects.get(pk=Category_id)
         form = ListForm(request.POST or None, instance=updated_category)
@@ -84,4 +85,23 @@ def update_category(request, Category_id):
     else:
         category_list = Category.objects.all()
         return render(request, "farmer_app/pages/update_category.html",
-                      {"category_list": category_list})
+                      {"category_list": category_list, "class": class_name})
+
+
+def cart(request):
+    class_name = "nav-md"
+    return render(request, "farmer_app/pages/cart.html", {"class": class_name})
+
+
+def add_cart(request, Category_id):
+    class_name = "nav-md"
+    if request.method == "POST":
+        updated_category = Category.objects.get(pk=Category_id)
+        form = ListForm(request.POST or None, instance=updated_category)
+        if form.is_valid():
+            form.save()
+            return redirect("category")
+    else:
+        cart_list = Category.objects.all()
+        return render(request, "farmer_app/pages/add_cart.html",
+                      {"cart_list": cart_list, "class": class_name})

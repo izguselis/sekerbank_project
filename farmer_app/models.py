@@ -3,14 +3,14 @@ import os
 
 
 # Create your models here.
-def upload_form(instace, filename):
+def upload_form(filename):
     return os.path.join('uploads/photo/', filename)
 
 
 class Category(models.Model):
     category_name = models.CharField(max_length=100)
     status = models.BooleanField(default=False)
-    category_image = models.ImageField(upload_to='images/', blank=True)
+    category_image = models.ImageField(upload_to="image", blank=True)
 
 
 def __str__(self):
@@ -18,7 +18,9 @@ def __str__(self):
 
 
 class Product(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name='p_category', null=True, blank=True)
+    category_id = models.ForeignKey(Category, on_delete=models.SET_NULL,
+                                 related_name='p_category', null=True,
+                                 blank=True)
     name_tr = models.CharField(max_length=250, null=True, blank=True)
     name_en = models.CharField(max_length=250, null=True, blank=True)
     status = models.BooleanField(default=False, verbose_name='Durumu')
