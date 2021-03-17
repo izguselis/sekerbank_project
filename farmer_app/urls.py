@@ -1,5 +1,5 @@
-from django.urls import path
-
+from django.urls import path, include
+from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
@@ -16,4 +16,6 @@ urlpatterns = [
          name="update_category"),
     path('add_cart/<item_id>', views.add_cart, name="add_cart"),
     path('cart/', views.cart, name="cart"),
+    path('add_product/<pk>', views.add_product, name="add_product"),
+
 ]

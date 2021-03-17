@@ -1,0 +1,22 @@
+{% load django_tables2 %}
+
+<div class="">
+    <div class="page-title">
+        <h1>{{ pagetitle }}</h1>
+        <h1 style="visibility: hidden">{{ datetime }} </h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-lg-12">
+            <div class="x_panel">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12 col-md-12">
+                        <div class="card-box table-responsive">
+                            {% render_table table %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
