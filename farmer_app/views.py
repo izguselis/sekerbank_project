@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.urls import reverse
 
 from .forms import *
 from .models import Category
@@ -47,8 +49,18 @@ def category(request):
 
 def product(request):
     class_name = "nav-md"
-    return render(request, "farmer_app/pages/product.html",
-                  {"class": class_name})
+    if request.method == "POST":
+        form = ProductForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+        product_list = Product.objects.all()
+        return render(request, "farmer_app/pages/product.html",
+                      {"class": class_name, "product_list": product_list})
+
+    else:
+        product_list = Product.objects.all()
+        return render(request, "farmer_app/pages/product.html",
+                      {"class": class_name, "product_list": product_list})
 
 
 def add_category(request):
@@ -93,15 +105,14 @@ def cart(request):
     return render(request, "farmer_app/pages/cart.html", {"class": class_name})
 
 
-def add_cart(request, Category_id):
-    class_name = "nav-md"
-    if request.method == "POST":
-        updated_category = Category.objects.get(pk=Category_id)
-        form = ListForm(request.POST or None, instance=updated_category)
-        if form.is_valid():
-            form.save()
-            return redirect("category")
-    else:
-        cart_list = Category.objects.all()
-        return render(request, "farmer_app/pages/add_cart.html",
-                      {"cart_list": cart_list, "class": class_name})
+def add_cart(request, item_id):
+    # filter products by id
+    product = Product.objects.filter(
+        id=item_id.get('item_id', "")).first()
+
+    # create orderItem of the selected product
+    order_item, status = OrderItem.objects.get_or_create(product=product)
+
+    # show confirmation message and redirect back to the same page
+    messages.info(request, "item added to cart")
+    return redirect("product")

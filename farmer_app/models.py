@@ -12,22 +12,44 @@ class Category(models.Model):
     status = models.BooleanField(default=False)
     category_image = models.ImageField(upload_to="image", blank=True)
 
-
-def __str__(self):
-    return self.category_name
+    def __str__(self):
+        return self.category_name
 
 
 class Product(models.Model):
     category_id = models.ForeignKey(Category, on_delete=models.SET_NULL,
-                                 related_name='p_category', null=True,
-                                 blank=True)
+                                    related_name='p_category', null=True,
+                                    blank=True)
     name_tr = models.CharField(max_length=250, null=True, blank=True)
     name_en = models.CharField(max_length=250, null=True, blank=True)
     status = models.BooleanField(default=False, verbose_name='Durumu')
     price = models.DecimalField(blank=True, null=True, verbose_name='Fiyat',
                                 max_digits=7,
                                 decimal_places=2)
-    photo = models.FileField(upload_to=upload_form)
+    photo = models.ImageField(upload_to="image", blank=True)
 
     def __str__(self):
         return self.name_tr
+
+
+class OrderItem(models.Model):
+    product = models.OneToOneField(Product, on_delete=models.SET_NULL,
+                                   null=True)
+    is_ordered = models.BooleanField(default=False)
+    date_ordered = models.DateTimeField(null=True)
+
+    def __str__(self):
+        return self.product.name_tr
+
+
+class Order(models.Model):
+    is_ordered = models.BooleanField(default=False)
+    items = models.ManyToManyField(OrderItem)
+    date_ordered = models.DateTimeField(auto_now=True)
+
+    def get_cart_items(self):
+        return self.items.all()
+
+    def get_cart_total(self):
+        return sum([item.product.price for item in self.items.all()])
+
