@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 
 from .forms import *
-from .models import Category
+from .models import *
+from .tables import *
 
 
 # Create your views here.
@@ -47,8 +48,29 @@ def category(request):
 
 def product(request):
     class_name = "nav-md"
+    product_table = Product.objects.all()
+    table = ProductTable(product_table)
+
     return render(request, "farmer_app/pages/product.html",
-                  {"class": class_name})
+                  {"class": class_name, 'table': table})
+
+
+def add_product(request, pk):
+    if pk != '0':
+        edit = Product.objects.get(pk=pk)
+        form = ProductForm(instance=edit)
+    else:
+        form = ProductForm(request.POST, request.FILES)
+
+    if request.method == 'POST':
+        if pk != '0':
+            form = ProductForm(request.POST, request.FILES, instance=edit)
+        else:
+            form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+
+    return render(request, 'farmer_app/pages/add_product.html', {'form': form})
 
 
 def add_category(request):

@@ -1,1 +1,41 @@
-{% extends 'base.html' %}
+{% extends "farmer_app/base/header.html" %}
+{% load django_tables2 %}
+{% load static %}
+{% block content %}
+    {% load i18n %}
+    <div class="container body">
+        <div class="main_container">
+            {% include "farmer_app/base/menu.html" %}
+            <div class="right_col" role="main">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_content">
+                                <div id="myTabContent" class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active " id="tab_content1"
+                                         aria-labelledby="home-tab">
+                                        <form id="form" method="post" class="form-horizontal form-label-left"
+                                              onsubmit="return validateForm()"
+                                              enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            {% include 'includes/form.html' with form=form %}
+                                            {#                {% if edit.pk %}#}
+                                            {#                    <a href="/delete_enstitu/{{ edit.pk }}" style="float: left"#}
+                                            {#                       class="btn btn-danger">Sil</a>{% endif %}#}
+                                            <button type="submit" id="submit" style="float: right"
+                                                    class="btn btn-success">
+                                                Kaydet
+                                            </button>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        {% include "farmer_app/base/body_style.html" %}
+{% endblock %}
