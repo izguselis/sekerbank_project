@@ -3,73 +3,54 @@
     Kategori Düzenleme
 {% endblock title %}
 {% block content %}
-    <div class="container body">
-        <div class="main_container">
-            {% include "farmer_app/base/menu.html" %}
-            <div class="right_col" role="main">
-                <!-- page content -->
-                <div class="col-md-12 col-sm-12 ">
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>Kategori Düzenle</h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i
-                                        class="fa fa-chevron-up"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-                            <br/>
-                            <form method="POST"
-                                  class="form-horizontal form-label-left">
-                                {% csrf_token %}
-                                <div class="item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3 label-align">
-                                        Kategori Adı </label>
-                                    <div class="col-md-6 col-sm-6">
-                                        <input type="text"
-                                               class="form-control"
-                                               name="category_name">
-                                    </div>
-                                </div>
+    {% include "farmer_app/base/panel.html" with panel_title="Kategori Düzenle" %}
+    {% block panel_content %}
+        <div class="x_content">
+            <br/>
+            <form method="POST"
+                  class="form-horizontal form-label-left">
+                {% csrf_token %}
+                <div class="item form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align">
+                        Kategori Adı </label>
+                    <div class="col-md-6 col-sm-6">
+                        <input type="text"
+                               class="form-control"
+                               name="category_name">
+                    </div>
+                </div>
 
-                                <div class="item form-group">
-                                    <div class="col-form-label col-md-3 col-sm-3 label-align">
-                                        Kategori Durumu
-                                    </div>
-                                    <div class="col-md-6 col-sm-6">
-                                        <div class="checkbox">
-                                            <input class="flat"
-                                                   type="checkbox"
-                                                   name="status"
-                                                   checked="checked">
-                                            <label class="form-check-label">
-                                                Aktif
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ln_solid"></div>
-                                <div class="item form-group">
-                                    <div class="col-md-6 col-sm-6 offset-md-4">
-                                        <button type="submit"
-                                                class="btn btn-success">
-                                            Kaydet
-                                        </button>
-                                        <a class="btn btn-primary"
-                                           type="button"
-                                           href="{% url 'category' %}">
-                                            İptal
-                                        </a>
-                                    </div>
-                                </div>
-                            </form>
+                <div class="item form-group">
+                    <div class="col-form-label col-md-3 col-sm-3 label-align">
+                        Kategori Durumu
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <div class="checkbox">
+                            <input class="flat"
+                                   type="checkbox"
+                                   name="status"
+                                   checked="checked">
+                            <label class="form-check-label">
+                                Aktif
+                            </label>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="ln_solid"></div>
+                <div class="item form-group">
+                    <div class="col-md-6 col-sm-6 offset-md-4">
+                        <button type="submit"
+                                class="btn btn-success">
+                            Kaydet
+                        </button>
+                        <a class="btn btn-primary"
+                           type="button"
+                           href="{% url 'category' %}">
+                            İptal
+                        </a>
+                    </div>
+                </div>
+            </form>
         </div>
-    </div>
-    {% include "farmer_app/base/body_style.html" %}
+    {% endblock panel_content %}
 {% endblock content %}

@@ -7,40 +7,17 @@
 
 {% block content %}
     {{ message }}
-    <div class="container body">
-        <div class="main_container">
-            {% include "farmer_app/base/menu.html" %}
-            <!-- page content -->
-            <div class="right_col" role="main">
-                <div class="col-md-12 col-sm-12 ">
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>Ürün Listesi</h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li>
-                                    <a class="modal-with-form btn btn-default"
-                                       href="/add_product/0">Ürün Ekle
-                                        <i class="fa fa-plus"></i></a>
-                                </li>
-                                <li><a class="collapse-link"><i
-                                        class="fa fa-chevron-up"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    {% render_table table %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /page content -->
+    {% include "farmer_app/base/panel.html" with panel_title="Ürün Listesi" add_title="Ürün Ekle" %}
+
+    {% block panel_content %}
+        <div class="x_content">
+            <div class="row">
+                <div class="col-sm-12">
+                    {% render_table table %}
                 </div>
             </div>
         </div>
-    </div>
-    {% include "farmer_app/base/body_style.html" %}
+    {% endblock panel_content %}
+
 {% endblock content %}
 

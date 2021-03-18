@@ -2,7 +2,7 @@
 {% block title %}
     Giriş Sayfası
 {% endblock title %}
-{% block content %}
+{% block login_content %}
     <div>
         <div class="login_wrapper">
             <div class="animate form login_form">
@@ -21,7 +21,8 @@
                             <a class="btn btn-default submit"
                                href="{% url 'index' %}">Giriş
                                 Yap</a>
-                            <a class="reset_pass" href="{% url 'reset_password' %}">Şifrenizi mi
+                            <a class="reset_pass"
+                               href="{% url 'reset_password' %}">Şifrenizi mi
                                 unuttunuz?</a>
                         </div>
 
@@ -48,4 +49,4 @@
             </div>
         </div>
     </div>
-{% endblock content %}
+{% endblock login_content %}
