@@ -47,33 +47,6 @@ def category(request):
                       {"class": class_name, "category_list": category_list})
 
 
-def product(request):
-    class_name = "nav-md"
-    product_table = Product.objects.all()
-    table = ProductTable(product_table)
-
-    return render(request, "farmer_app/pages/product.html",
-                  {"class": class_name, 'table': table})
-
-
-def add_product(request, pk):
-    if pk != '0':
-        edit = Product.objects.get(pk=pk)
-        form = ProductForm(instance=edit)
-    else:
-        form = ProductForm(request.POST, request.FILES)
-
-    if request.method == 'POST':
-        if pk != '0':
-            form = ProductForm(request.POST, request.FILES, instance=edit)
-        else:
-            form = ProductForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-
-    return render(request, 'farmer_app/pages/add_product.html', {'form': form})
-
-
 def add_category(request):
     class_name = "nav-md"
     if request.method == "POST":
@@ -109,6 +82,55 @@ def update_category(request, Category_id):
         category_list = Category.objects.all()
         return render(request, "farmer_app/pages/update_category.html",
                       {"category_list": category_list, "class": class_name})
+
+
+def product(request):
+    class_name = "nav-md"
+    product_table = Product.objects.all()
+    table = ProductTable(product_table)
+
+    return render(request, "farmer_app/pages/product.html",
+                  {"class": class_name, 'table': table})
+
+
+def add_product(request, pk):
+    class_name = "nav-md"
+    if pk != '0':
+        edit = Product.objects.get(pk=pk)
+        form = ProductForm(instance=edit)
+    else:
+        form = ProductForm(request.POST, request.FILES)
+
+    if request.method == 'POST':
+        if pk != '0':
+            form = ProductForm(request.POST, request.FILES, instance=edit)
+        else:
+            form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+
+    return render(request, 'farmer_app/pages/add_product.html',
+                  {"class": class_name, "form": form})
+
+
+def update_product(request, product_id):
+    class_name = "nav-md"
+    edit = Product.objects.get(pk=product_id)
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES, instance=edit)
+        if form.is_valid():
+            form.save()
+            return redirect("product")
+    else:
+        form = ProductForm(instance=edit)
+        return render(request, 'farmer_app/pages/update_product.html',
+                      {"class": class_name, "form": form})
+
+
+def delete_product(request, product_id):
+    deleted_product = Product.objects.get(pk=product_id)
+    deleted_product.delete()
+    return redirect("product")
 
 
 def cart(request):

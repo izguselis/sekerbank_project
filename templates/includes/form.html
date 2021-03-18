@@ -9,12 +9,10 @@
 
 {% for field in form.visible_fields %}
     <div class="item form-group" id="{{ field.name }}_div">
-        <label style="font-weight: bold; font-size: 15px"
+        <label class="col-form-label col-md-3 col-sm-3 label-align"
                for="{{ field.id_for_label }}"
-               class="col-form-label col-md-3 col-sm-3 label-align"
                id="{{ field.name }}_lbl">{{ field.label }}</label>
         <div class="col-md-6 col-sm-6 ">
-
             {% render_field field class="form-control" %}
             {% for error in field.errors %}
                 <span class="help-block">{{ error }}</span>

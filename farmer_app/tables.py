@@ -7,7 +7,8 @@ from .models import *
 class ProductTable(tables.Table):
     counter = tables.Column(verbose_name='#', empty_values=(), orderable=False)
     edit = tables.TemplateColumn(
-        template_name='farmer_app/base/table_buttons.html')
+        template_name='farmer_app/base/table_buttons.html',
+        extra_context={"item_type": "product"})
 
     class Meta:
         model = Product
