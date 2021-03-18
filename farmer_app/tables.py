@@ -8,7 +8,8 @@ class ProductTable(tables.Table):
     counter = tables.Column(verbose_name='#', empty_values=(), orderable=False)
     edit = tables.TemplateColumn(
         template_name='farmer_app/base/table_buttons.html',
-        extra_context={"item_type": "product"})
+        extra_context={"item_type": "product", "add_url1": "/add_cart/", "add_url2": "/add_product/",
+                       "add_url3": "/delete_product/"})
 
     class Meta:
         model = Product

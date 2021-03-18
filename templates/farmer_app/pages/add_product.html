@@ -1,5 +1,6 @@
 {% extends "farmer_app/base/header.html" %}
 {% load django_tables2 %}
+{% load  widget_tweaks %}
 {% load static %}
 {% block content %}
     {% include "farmer_app/base/panel.html" with panel_title="Ürün Ekle" %}
@@ -11,10 +12,28 @@
                   class="form-horizontal form-label-left"
                   onsubmit="return validateForm()">
                 {% csrf_token %}
-                {% include 'includes/form.html' with form=form %}
+{#                {% include 'includes/form.html' with form=form %}#}
                 {#                {% if edit.pk %}#}
                 {#                    <a href="/delete_enstitu/{{ edit.pk }}" style="float: left"#}
                 {#                       class="btn btn-danger">Sil</a>{% endif %}#}
+                {% for field in form %}
+                    <div class="item form-group" id="{{ field.name }}_div"
+                            {% if field.name == 'status' %} style="display: none" {% endif %}>
+                        <label style="font-weight: bold; font-size: 15px"
+                               for="{{ field.id_for_label }}"
+                               class="col-form-label col-md-3 col-sm-3 label-align"
+                               id="{{ field.name }}_lbl">{{ field.label }}</label>
+                        <div class="col-md-6 col-sm-6 ">
+                            {% render_field field class="form-control" %}
+                            {% for error in field.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                            {% if field.help_text %}
+                                <small>{{ field.help_text }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
                 <div class="ln_solid"></div>
                 <div class="item form-group">
                     <div class="col-md-6 col-sm-6 offset-md-4">

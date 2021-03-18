@@ -7,16 +7,12 @@
 
 {% block content %}
     {{ message }}
-    {% include "farmer_app/base/panel.html" with panel_title="Ürün Listesi" add_title="Ürün Ekle" %}
+    {% include "farmer_app/base/panel.html" with panel_title="Ürün Listesi" add_title="Ürün Ekle"  add_url='/add_product/0' %}
 
     {% block panel_content %}
-        <div class="x_content">
-            <div class="row">
-                <div class="col-sm-12">
-                    {% render_table table %}
-                </div>
-            </div>
-        </div>
+
+        {% render_table table %}
+
     {% endblock panel_content %}
 
 {% endblock content %}

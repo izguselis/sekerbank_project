@@ -48,20 +48,28 @@ def category(request):
                       {"class": class_name, "category_list": category_list})
 
 
-def add_category(request):
+def add_category(request, pk):
     class_name = "nav-md"
+    if pk != '0':
+        edit = Category.objects.get(pk=pk)
+        form = CategoryForm(instance=edit)
+    else:
+        form = CategoryForm(request.POST, request.FILES)
     if request.method == "POST":
-        form = CategoryForm(request.POST or None)
+        if pk != '0':
+            form = CategoryForm(request.POST, request.FILES, instance=edit)
+        else:
+            form = CategoryForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             category_list = Category.objects.all()
             return render(request, "farmer_app/pages/add_category.html",
-                          {"class": class_name,
+                          {"class": class_name, "form": form,
                            "category_list": category_list})
     else:
         category_list = Category.objects.all()
         return render(request, "farmer_app/pages/add_category.html",
-                      {"class": class_name,
+                      {"class": class_name, "form" : form,
                        "category_list": category_list})
 
 
@@ -71,18 +79,18 @@ def delete_category(request, Category_id):
     return redirect("category")
 
 
-def update_category(request, Category_id):
-    class_name = "nav-md"
-    if request.method == "POST":
-        updated_category = Category.objects.get(pk=Category_id)
-        form = CategoryForm(request.POST or None, instance=updated_category)
-        if form.is_valid():
-            form.save()
-            return redirect("category")
-    else:
-        category_list = Category.objects.all()
-        return render(request, "farmer_app/pages/update_category.html",
-                      {"category_list": category_list, "class": class_name})
+# def update_category(request, Category_id):
+#     class_name = "nav-md"
+#     if request.method == "POST":
+#         updated_category = Category.objects.get(pk=Category_id)
+#         form = CategoryForm(request.POST or None, instance=updated_category)
+#         if form.is_valid():
+#             form.save()
+#             return redirect("category")
+#     else:
+#         category_list = Category.objects.all()
+#         return render(request, "farmer_app/pages/update_category.html",
+#                       {"category_list": category_list, "class": class_name})
 
 
 def product(request):
@@ -114,18 +122,18 @@ def add_product(request, pk):
                   {"class": class_name, "form": form})
 
 
-def update_product(request, product_id):
-    class_name = "nav-md"
-    edit = Product.objects.get(pk=product_id)
-    if request.method == "POST":
-        form = ProductForm(request.POST, request.FILES, instance=edit)
-        if form.is_valid():
-            form.save()
-            return redirect("product")
-    else:
-        form = ProductForm(instance=edit)
-        return render(request, 'farmer_app/pages/update_product.html',
-                      {"class": class_name, "form": form})
+# def update_product(request, product_id):
+#     class_name = "nav-md"
+#     edit = Product.objects.get(pk=product_id)
+#     if request.method == "POST":
+#         form = ProductForm(request.POST, request.FILES, instance=edit)
+#         if form.is_valid():
+#             form.save()
+#             return redirect("product")
+#     else:
+#         form = ProductForm(instance=edit)
+#         return render(request, 'farmer_app/pages/update_product.html',
+#                       {"class": class_name, "form": form})
 
 
 def delete_product(request, product_id):

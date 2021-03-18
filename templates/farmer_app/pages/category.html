@@ -7,7 +7,7 @@
 
 {% block content %}
 
-    {% include "farmer_app/base/panel.html" with panel_title="Kategori Listesi" add_title="Kategori Ekle" %}
+    {% include "farmer_app/base/panel.html" with panel_title="Kategori Listesi" add_title="Kategori Ekle"  add_url="/add_category/0"%}
 
     {% block panel_content %}
         <div class="row">
@@ -44,9 +44,9 @@
                                 {% endif %}
                                 <td>
                                     <a class="modal-with-form"
-                                       href="{% url 'update_category' category.id %}"><i
+                                       href="/add_category/{{ category.pk }}"><i
                                             class="fa fa-pencil"></i></a>
-                                    <a href="{% url 'delete_category' category.id %}"
+                                    <a href="{% url 'delete_category' category.pk %}"
                                        class="delete-row"><i
                                             class="fa fa-trash-o"></i></a>
                                 </td>
