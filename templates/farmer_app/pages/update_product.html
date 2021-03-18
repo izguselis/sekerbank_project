@@ -1,0 +1,33 @@
+{% extends "farmer_app/base/header.html" %}
+{% load django_tables2 %}
+{% load static %}
+{% block content %}
+    {% include "farmer_app/base/panel.html" with panel_title="Ürün Güncelle" %}
+    {% block panel_content %}
+        <div class="x_content">
+            <br/>
+            <form method="post"
+                  class="form-horizontal form-label-left"
+                  onsubmit="return validateForm()">
+                {% csrf_token %}
+                {% include 'includes/form.html' with form=form %}
+                <div class="ln_solid"></div>
+                <div class="item form-group">
+                    <div class="col-md-6 col-sm-6 offset-md-4">
+                        <button id="submit"
+                                type="submit"
+                                class="btn btn-success"
+                                style="float: right">
+                            Kaydet
+                        </button>
+                        <a class="btn btn-primary"
+                           type="button"
+                           href="{% url 'product' %}">
+                            İptal
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    {% endblock panel_content %}
+{% endblock content %}
