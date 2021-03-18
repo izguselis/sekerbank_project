@@ -8,9 +8,9 @@ def upload_form(filename):
 
 
 class Category(models.Model):
-    category_name = models.CharField(max_length=100)
-    status = models.BooleanField(default=False)
-    category_image = models.ImageField(upload_to="image", blank=True)
+    category_name = models.CharField(verbose_name='Kategori Adı', max_length=100)
+    status = models.BooleanField(verbose_name='Durumu', default=False)
+    category_image = models.ImageField(verbose_name='Kategori Görseli', upload_to="image", blank=True)
 
     def __str__(self):
         return self.category_name

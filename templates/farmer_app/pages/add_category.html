@@ -1,7 +1,12 @@
 {% extends "farmer_app/base/header.html" %}
+{% load django_tables2 %}
+{% load  widget_tweaks %}
+{% load static %}
+
 {% block title %}
     Kategori Ekleme
 {% endblock title %}
+
 {% block content %}
 
     {% include "farmer_app/base/panel.html" with panel_title="Kategori Ekle" %}
@@ -9,67 +14,10 @@
     {% block panel_content %}
         <div class="x_content">
             <br/>
-            <form method="POST"
+            <form method="post"
                   class="form-horizontal form-label-left">
                 {% csrf_token %}
-                <div class="item form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align">
-                        Kategori Adı </label>
-                    <div class="col-md-6 col-sm-6">
-                        <input type="text"
-                               class="form-control"
-                               name="category_name">
-                    </div>
-                </div>
-
-                <div class="item form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align">
-                        Kategori Resmi </label>
-                    <div class="btn-group">
-                        <a class="btn"
-                           title="Insert picture (or just drag & drop)"
-                           id="pictureBtn">
-                            <i class="fa fa-picture-o"></i>
-                        </a>
-                        <input type="file"
-                               data-role="magic-overlay"
-                               data-target="#pictureBtn"
-                               data-edit="insertImage"
-                               name="category_image"/>
-                    </div>
-                </div>
-
-                <div class="item form-group">
-                    <div class="col-form-label col-md-3 col-sm-3 label-align">
-                        Kategori Durumu
-                    </div>
-                    <div class="col-md-6 col-sm-6">
-                        <div class="checkbox">
-                            <input class="flat"
-                                   type="checkbox"
-                                   name="status"
-                                   checked="checked">
-                            <label class="form-check-label">
-                                Aktif
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="ln_solid"></div>
-                <div class="item form-group">
-                    <div class="col-md-6 col-sm-6 offset-md-4">
-                        <button type="submit"
-                                class="btn btn-success">
-                            Kaydet
-                        </button>
-                        <a class="btn btn-primary"
-                           type="button"
-                           href="{% url 'category' %}">
-                            İptal
-                        </a>
-                    </div>
-                </div>
+                {% include 'includes/form.html' with form=form %}
             </form>
         </div>
     {% endblock panel_content %}

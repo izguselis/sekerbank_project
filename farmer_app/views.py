@@ -33,44 +33,34 @@ def index(request):
 
 
 def category(request):
-    class_name = "nav-md"
-    if request.method == "POST":
-        form = CategoryForm(request.POST or None)
-        if form.is_valid():
-            form.save()
-            category_list = Category.objects.all()
-            return render(request, "farmer_app/pages/category.html",
-                          {"class": class_name,
-                           "category_list": category_list})
-    else:
-        category_list = Category.objects.all()
-        return render(request, "farmer_app/pages/category.html",
-                      {"class": class_name, "category_list": category_list})
+    category_table = Category.objects.all()
+    table = CategoryTable(category_table)
+    context = {
+        "class": "nav-md",
+        "table": table
+    }
+    return render(request, "farmer_app/pages/category.html", context)
 
 
-def add_category(request, pk):
+def add_category(request, category_id):
     class_name = "nav-md"
-    if pk != '0':
-        edit = Category.objects.get(pk=pk)
+    if category_id != '0':
+        edit = Category.objects.get(pk=category_id)
         form = CategoryForm(instance=edit)
     else:
         form = CategoryForm(request.POST, request.FILES)
     if request.method == "POST":
-        if pk != '0':
+        if category_id != '0':
             form = CategoryForm(request.POST, request.FILES, instance=edit)
         else:
             form = CategoryForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            category_list = Category.objects.all()
-            return render(request, "farmer_app/pages/add_category.html",
-                          {"class": class_name, "form": form,
-                           "category_list": category_list})
-    else:
-        category_list = Category.objects.all()
-        return render(request, "farmer_app/pages/add_category.html",
-                      {"class": class_name, "form" : form,
-                       "category_list": category_list})
+    context = {
+        "class": "nav-md",
+        "form": form
+    }
+    return render(request, 'farmer_app/pages/add_category.html', context)
 
 
 def delete_category(request, Category_id):
@@ -97,29 +87,32 @@ def product(request):
     class_name = "nav-md"
     product_table = Product.objects.all()
     table = ProductTable(product_table)
+    context = {
+        "class": "nav-md",
+        "table": table
+    }
+    return render(request, "farmer_app/pages/product.html", context)
 
-    return render(request, "farmer_app/pages/product.html",
-                  {"class": class_name, 'table': table})
 
-
-def add_product(request, pk):
-    class_name = "nav-md"
-    if pk != '0':
-        edit = Product.objects.get(pk=pk)
+def add_product(request, product_id):
+    if product_id != '0':
+        edit = Product.objects.get(pk=product_id)
         form = ProductForm(instance=edit)
     else:
         form = ProductForm(request.POST, request.FILES)
 
     if request.method == 'POST':
-        if pk != '0':
+        if product_id != '0':
             form = ProductForm(request.POST, request.FILES, instance=edit)
         else:
             form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-
-    return render(request, 'farmer_app/pages/add_product.html',
-                  {"class": class_name, "form": form})
+    context = {
+        "class": "nav-md",
+        "form": form
+    }
+    return render(request, 'farmer_app/pages/add_product.html', context)
 
 
 # def update_product(request, product_id):

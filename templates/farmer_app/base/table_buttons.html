@@ -10,9 +10,9 @@
             class="fa fa-trash-o"></i></a>
 {% else %}
     <a class="modal-with-form"
-       href="{% url 'add_category' record.id %}"><i
+       href="{{ add_url1 }}{{ record.id }}"><i
             class="fa fa-pencil"></i></a>
-    <a href="{% url 'delete_category' record.id %}"
+    <a href="{{ add_url2 }}{{ record.id }}"
        class="delete-row"><i
             class="fa fa-trash-o"></i></a>
 {% endif %}
