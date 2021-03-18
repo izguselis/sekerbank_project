@@ -26,3 +26,13 @@ class ProductTable(tables.Table):
     def render_counter(self):
         self.row_counter = getattr(self, 'row_counter', itertools.count())
         return next(self.row_counter) + 1
+
+
+class OrderItemTable(tables.Table):
+    class Meta:
+        model = OrderItem
+        fields = (
+            'quantity', 'product.name_tr', 'product.price')
+        sequence = (
+            'quantity', 'product.name_tr', 'product.price')
+        attrs = {"class": "table"}

@@ -13,6 +13,7 @@
     <div class="container body">
         <div class="main_container">
             {% include "farmer_app/base/menu.html" %}
+            {% include "farmer_app/base/top_navigation.html" with item_list="{{ item_list }}" %}
             <div class="right_col" role="main">
                 {% block content %}
 

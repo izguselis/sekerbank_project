@@ -1,3 +1,4 @@
+from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
@@ -34,7 +35,7 @@ def index(request):
 def category(request):
     class_name = "nav-md"
     if request.method == "POST":
-        form = ListForm(request.POST or None)
+        form = CategoryForm(request.POST or None)
         if form.is_valid():
             form.save()
             category_list = Category.objects.all()
@@ -50,7 +51,7 @@ def category(request):
 def add_category(request):
     class_name = "nav-md"
     if request.method == "POST":
-        form = ListForm(request.POST or None)
+        form = CategoryForm(request.POST or None)
         if form.is_valid():
             form.save()
             category_list = Category.objects.all()
@@ -74,7 +75,7 @@ def update_category(request, Category_id):
     class_name = "nav-md"
     if request.method == "POST":
         updated_category = Category.objects.get(pk=Category_id)
-        form = ListForm(request.POST or None, instance=updated_category)
+        form = CategoryForm(request.POST or None, instance=updated_category)
         if form.is_valid():
             form.save()
             return redirect("category")
@@ -134,18 +135,29 @@ def delete_product(request, product_id):
 
 
 def cart(request):
-    class_name = "nav-md"
-    return render(request, "farmer_app/pages/cart.html", {"class": class_name})
+    items = OrderItem.objects.all()
+    item_table = OrderItemTable(items)
+    order = Order.objects.filter(is_ordered=False).first()
+    sub_total = order.get_cart_total()
+    context = {
+        'class': "nav-md",
+        'table': item_table,
+        'sub_total': sub_total,
+        'item_list': items
+    }
+    return render(request, "farmer_app/pages/cart.html", context)
 
 
-def add_cart(request, item_id):
+def add_cart(request, product_id):
     # filter products by id
-    product = Product.objects.filter(
-        id=item_id.get('item_id', "")).first()
-
+    product = Product.objects.get(pk=product_id)
     # create orderItem of the selected product
     order_item, status = OrderItem.objects.get_or_create(product=product)
-
+    # create order associated with the user
+    user_order, status = Order.objects.get_or_create(is_ordered=False)
+    user_order.items.add(order_item)
+    if status:
+        user_order.save()
     # show confirmation message and redirect back to the same page
-    messages.info(request, "item added to cart")
+    messages.info(request, "Ürün sepete eklendi")
     return redirect("product")

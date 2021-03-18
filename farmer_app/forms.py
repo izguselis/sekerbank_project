@@ -17,7 +17,7 @@ class ProductForm(forms.ModelForm):
         ]
 
 
-class ListForm(forms.ModelForm):
+class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = [
