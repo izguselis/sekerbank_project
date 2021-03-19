@@ -14,7 +14,7 @@
         <div class="x_content">
             <br/>
             <form method="post"
-                  class="form-horizontal form-label-left"
+                  class="form-horizontal form-label-left" enctype="multipart/form-data"
                   onsubmit="return validateForm()">
                 {% csrf_token %}
 {#                {% include 'includes/form.html' with form=form %}#}
@@ -22,14 +22,18 @@
                 {#                    <a href="/delete_enstitu/{{ edit.pk }}" style="float: left"#}
                 {#                       class="btn btn-danger">Sil</a>{% endif %}#}
                 {% for field in form %}
-                    <div class="item form-group" id="{{ field.name }}_div"
-                            {% if field.name == 'status' %} style="display: none" {% endif %}>
+                    <div class="item form-group" id="{{ field.name }}_div">
                         <label style="font-weight: bold; font-size: 15px"
                                for="{{ field.id_for_label }}"
-                               class="col-form-label col-md-3 col-sm-3 label-align"
+                               class="col-form-label col--3 col-sm-3 label-align col-"
                                id="{{ field.name }}_lbl">{{ field.label }}</label>
                         <div class="col-md-6 col-sm-6 ">
-                            {% render_field field class="form-control" %}
+                         {% if field.name == 'status' %}
+                              {% render_field field  class="item col-md-1 col-sm-1" style="width:16px; height:32px"%}
+                         {% else %}
+                               {% render_field field  class="form-control"  %}
+                         {% endif %}
+
                             {% for error in field.errors %}
                                 <span class="help-block">{{ error }}</span>
                             {% endfor %}
