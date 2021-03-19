@@ -27,23 +27,26 @@ def reset_password(request):
 
 
 def index(request):
-    class_name = "nav-md"
-    return render(request, "farmer_app/pages/index.html",
-                  {"class": class_name})
+    item_count = get_item_count()
+    context = {
+        "class": "nav-md",
+        "item_count": item_count
+    }
+    return render(request, "farmer_app/pages/index.html", context)
 
 
 def category(request):
-    category_table = Category.objects.all()
-    table = CategoryTable(category_table)
+    category_table = CategoryTable(Category.objects.all())
+    item_count = get_item_count()
     context = {
         "class": "nav-md",
-        "table": table
+        "table": category_table,
+        "item_count": item_count
     }
     return render(request, "farmer_app/pages/category.html", context)
 
 
 def add_category(request, category_id):
-    class_name = "nav-md"
     if category_id != '0':
         edit = Category.objects.get(pk=category_id)
         form = CategoryForm(instance=edit)
@@ -69,27 +72,13 @@ def delete_category(request, Category_id):
     return redirect("category")
 
 
-# def update_category(request, Category_id):
-#     class_name = "nav-md"
-#     if request.method == "POST":
-#         updated_category = Category.objects.get(pk=Category_id)
-#         form = CategoryForm(request.POST or None, instance=updated_category)
-#         if form.is_valid():
-#             form.save()
-#             return redirect("category")
-#     else:
-#         category_list = Category.objects.all()
-#         return render(request, "farmer_app/pages/update_category.html",
-#                       {"category_list": category_list, "class": class_name})
-
-
 def product(request):
-    class_name = "nav-md"
-    product_table = Product.objects.all()
-    table = ProductTable(product_table)
+    product_table = ProductTable(Product.objects.all())
+    item_count = get_item_count()
     context = {
         "class": "nav-md",
-        "table": table
+        "table": product_table,
+        "item_count": item_count
     }
     return render(request, "farmer_app/pages/product.html", context)
 
@@ -115,20 +104,6 @@ def add_product(request, product_id):
     return render(request, 'farmer_app/pages/add_product.html', context)
 
 
-# def update_product(request, product_id):
-#     class_name = "nav-md"
-#     edit = Product.objects.get(pk=product_id)
-#     if request.method == "POST":
-#         form = ProductForm(request.POST, request.FILES, instance=edit)
-#         if form.is_valid():
-#             form.save()
-#             return redirect("product")
-#     else:
-#         form = ProductForm(instance=edit)
-#         return render(request, 'farmer_app/pages/update_product.html',
-#                       {"class": class_name, "form": form})
-
-
 def delete_product(request, product_id):
     deleted_product = Product.objects.get(pk=product_id)
     deleted_product.delete()
@@ -138,14 +113,19 @@ def delete_product(request, product_id):
 def cart(request):
     items = OrderItem.objects.all()
     item_table = OrderItemTable(items)
-    order = Order.objects.filter(is_ordered=False).first()
-    sub_total = order.get_cart_total()
+    order = Order.objects.filter(is_ordered=False)
+    if order.exists():
+        sub_total = order[0].get_cart_total()
+        item_count = order[0].get_cart_items()
+
     context = {
-        'class': "nav-md",
-        'table': item_table,
-        'sub_total': sub_total,
-        'item_list': items
+        "class": "nav-md",
+        "table": item_table,
+        "sub_total": sub_total,
+        "item_list": items,
+        "item_count": item_count
     }
+
     return render(request, "farmer_app/pages/cart.html", context)
 
 
@@ -162,3 +142,19 @@ def add_cart(request, product_id):
     # show confirmation message and redirect back to the same page
     messages.info(request, "Ürün sepete eklendi")
     return redirect("product")
+
+
+def delete_from_cart(request, product_id):
+    deleted_item = OrderItem.objects.get(pk=product_id)
+    deleted_item.delete()
+    messages.info(request, "Ürün sepetten silindi")
+    return redirect("cart")
+
+
+def get_item_count():
+    order = Order.objects.filter(is_ordered=False)
+    if order.exists():
+        item_count = order[0].get_cart_items()
+        return item_count
+    else:
+        return 0

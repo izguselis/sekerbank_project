@@ -30,16 +30,6 @@ class ProductTable(tables.Table):
         return next(self.row_counter) + 1
 
 
-class OrderItemTable(tables.Table):
-    class Meta:
-        model = OrderItem
-        fields = (
-            'quantity', 'product.name_tr', 'product.price')
-        sequence = (
-            'quantity', 'product.name_tr', 'product.price')
-        attrs = {"class": "table"}
-
-
 class CategoryTable(tables.Table):
     counter = tables.Column(verbose_name='#', empty_values=(), orderable=False)
     edit = tables.TemplateColumn(
@@ -64,3 +54,18 @@ class CategoryTable(tables.Table):
     def render_counter(self):
         self.row_counter = getattr(self, 'row_counter', itertools.count())
         return next(self.row_counter) + 1
+
+
+class OrderItemTable(tables.Table):
+    edit = tables.TemplateColumn(
+        template_name='farmer_app/base/table_buttons.html',
+        extra_context={"item_type": "cart",
+                       "add_url1": "/delete_from_cart/"})
+
+    class Meta:
+        model = OrderItem
+        fields = (
+            'quantity', 'product.name_tr', 'product.price', 'edit')
+        sequence = (
+            'quantity', 'product.name_tr', 'product.price')
+        attrs = {"class": "table"}

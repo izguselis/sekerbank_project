@@ -9,19 +9,18 @@ urlpatterns = [
     path('reset_password/', views.reset_password, name="reset_password"),
 
     path('category/', views.category, name="category"),
-    path('product/', views.product, name="product"),
-    path('add_category/<category_id>', views.add_category, name="add_category"),
+    path('add_category/<category_id>', views.add_category,
+         name="add_category"),
     path('delete_category/<Category_id>', views.delete_category,
          name="delete_category"),
-    # path('update_category/<Category_id>', views.update_category,
-    #      name="update_category"),
 
+    path('product/', views.product, name="product"),
     path('add_product/<product_id>', views.add_product, name="add_product"),
-    # path('update_product/<product_id>', views.update_product,
-    #      name="update_product"),
     path('delete_product/<product_id>', views.delete_product,
          name="delete_product"),
 
-    path('add_cart/<product_id>', views.add_cart, name="add_cart"),
     path('cart/', views.cart, name="cart"),
+    path('add_cart/<product_id>', views.add_cart, name="add_cart"),
+    path('delete_from_cart/<product_id>', views.delete_from_cart,
+         name="delete_from_cart"),
 ]

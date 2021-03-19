@@ -25,42 +25,13 @@
                             Çıkış Yap</a>
                     </div>
                 </li>
-                <li role="presentation" class="nav-item dropdown open">
-                    <a href="javascript:;"
+                <li role="presentation" class="nav-item">
+                    <a href="{% url 'cart' %}"
                        class="dropdown-toggle info-number"
-                       id="navbarDropdown1" data-toggle="dropdown"
                        aria-expanded="false">
                         <i class="fa fa-shopping-basket"></i>
-                        <span class="badge bg-green">2</span>
+                        <span class="badge bg-green">{{ item_count }}</span>
                     </a>
-                    <ul class="dropdown-menu list-unstyled msg_list"
-                        role="menu" aria-labelledby="navbarDropdown1">
-                        <li class="nav-item">
-                            <a class="dropdown-item">
-                                <span class="image"><img
-                                        src="{% static 'images/salad.png' %}"
-                                        alt="Profile Image"/></span>
-                                <span class="message">Salata</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="dropdown-item">
-                                <span class="image"><img
-                                        src="{% static 'images/soup.png' %}"
-                                        alt="Profile Image"/></span>
-                                <span class="message">Mercimek Çorbası</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <div class="text-center">
-                                <a class="dropdown-item"
-                                   href="{% url 'cart' %}">
-                                    <strong>Sepetime Git</strong>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
                 </li>
             </ul>
         </nav>
