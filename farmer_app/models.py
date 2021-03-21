@@ -3,14 +3,14 @@ import os
 
 
 # Create your models here.
-def upload_form(filename):
-    return os.path.join('uploads/photo/', filename)
+def upload_form(instance, filename):
+    return os.path.join('image/', filename)
 
 
 class Category(models.Model):
     category_name = models.CharField(verbose_name='Kategori Adı', max_length=100)
     status = models.BooleanField(verbose_name='Durumu', default=False)
-    category_image = models.ImageField(verbose_name='Kategori Görseli', upload_to="image", blank=True)
+    category_image = models.ImageField(verbose_name='Kategori Görseli', upload_to=upload_form, blank=True)
 
     def __str__(self):
         return self.category_name
@@ -28,7 +28,7 @@ class Product(models.Model):
     price = models.DecimalField(blank=True, null=True, verbose_name='Fiyat',
                                 max_digits=7,
                                 decimal_places=2)
-    photo = models.FileField(upload_to='image', null=True, blank=True,
+    photo = models.FileField(upload_to=upload_form, null=True, blank=True, max_length=1000,
                              verbose_name='Ürün Görseli')
 
     def __str__(self):

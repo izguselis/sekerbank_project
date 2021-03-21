@@ -83,23 +83,26 @@ def product(request):
     return render(request, "farmer_app/pages/product.html", context)
 
 
-def add_product(request, product_id):
-    if product_id != '0':
-        edit = Product.objects.get(pk=product_id)
+def add_product(request, pk):
+    if pk != '0':
+        edit = Product.objects.get(pk=pk)
         form = ProductForm(instance=edit)
     else:
         form = ProductForm(request.POST, request.FILES)
 
     if request.method == 'POST':
-        if product_id != '0':
+        if pk != '0':
             form = ProductForm(request.POST, request.FILES, instance=edit)
         else:
             form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            return redirect('/add_product/' + pk)
+
     context = {
         "class": "nav-md",
-        "form": form
+        "form": form,
+        "pk": pk
     }
     return render(request, 'farmer_app/pages/add_product.html', context)
 
