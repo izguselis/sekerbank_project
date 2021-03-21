@@ -114,9 +114,10 @@ def cart(request):
     items = OrderItem.objects.all()
     item_table = OrderItemTable(items)
     order = Order.objects.filter(is_ordered=False)
+    item_count = get_item_count()
+    sub_total = 0
     if order.exists():
         sub_total = order[0].get_cart_total()
-        item_count = order[0].get_cart_items()
 
     context = {
         "class": "nav-md",

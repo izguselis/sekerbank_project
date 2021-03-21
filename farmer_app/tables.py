@@ -1,6 +1,7 @@
 import itertools
 
 import django_tables2 as tables
+
 from .models import *
 
 
@@ -11,6 +12,9 @@ class ProductTable(tables.Table):
         extra_context={"item_type": "product", "add_url1": "/add_cart/",
                        "add_url2": "/add_product/",
                        "add_url3": "/delete_product/"})
+
+    photo = tables.TemplateColumn(
+        '<img src="{{record.photo.url}}" width="75" height="75"/>')
 
     class Meta:
         model = Product
@@ -37,6 +41,8 @@ class CategoryTable(tables.Table):
         extra_context={"item_type": "category",
                        "add_url1": "/add_category/",
                        "add_url2": "/delete_category/"})
+    category_image = tables.TemplateColumn(
+        '<img src="{{record.category_image.url}}" width="75" height="75"/>')
 
     class Meta:
         model = Category
