@@ -14,7 +14,18 @@
                id="{{ field.name }}_lbl">{{ field.label }}</label>
         <div class="col-md-6 col-sm-6 ">
             {% if field.name == 'status' %}
-                {% render_field field class="item col-md-1 col-sm-1" style="width:16px; height:32px" %}
+                <div class="checkbox">
+                    {% render_field field class="flat" type="checkbox" checked="checked" %}
+                </div>
+            {% elif field.name == 'category_image' %}
+                <div class="btn-group">
+                    <a class="btn"
+                       title="Insert picture (or just drag & drop)"
+                       id="pictureBtn">
+                        <i class="fa fa-picture-o"></i>
+                    </a>
+                    {% render_field field type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" %}
+                </div>
             {% else %}
                 {% render_field field class="form-control" %}
             {% endif %}
