@@ -7,13 +7,29 @@ def upload_form(instance, filename):
     return os.path.join('image/', filename)
 
 
+class User(models.Model):
+    username = models.CharField(verbose_name="Kullanıcı adı",
+                                max_length=50)
+    email = models.EmailField(verbose_name="e-mail adresi",
+                              max_length=255,
+                              unique=True)
+    password = models.CharField(verbose_name="Şifre",
+                                max_length=50)
+    is_admin = models.BooleanField(verbose_name="Admin",
+                                  default=False)
+
+    def __str__(self):
+        return self.username
+
+
 class Category(models.Model):
     category_name = models.CharField(verbose_name='Kategori Adı',
                                      max_length=100)
     status = models.BooleanField(verbose_name='Durumu',
                                  default=False)
     category_image = models.ImageField(verbose_name='Kategori Görseli',
-                                       upload_to=upload_form, blank=True)
+                                       upload_to=upload_form,
+                                       blank=True)
     parent = models.ForeignKey('self',
                                on_delete=models.CASCADE,
                                related_name='parent_cat',

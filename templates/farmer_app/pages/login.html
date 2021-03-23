@@ -7,8 +7,10 @@
         <div class="login_wrapper">
             <div class="animate form login_form">
                 <section class="login_content">
-                    <form>
+                    <form method="post">
                         <h1>Giriş Formu</h1>
+                        {% csrf_token %}
+{#                        {% include 'includes/login_form.html' with form=form %}#}
                         <div>
                             <input type="text" class="form-control"
                                    placeholder="Kullanıcı adı" required=""/>

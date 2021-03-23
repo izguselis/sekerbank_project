@@ -7,26 +7,32 @@
         <div class="login_wrapper">
             <div class="animate form login_form">
                 <section class="login_content">
-                    <form>
+                    <form method="post">
                         <h1>Hesap Oluştur</h1>
+                        {% csrf_token %}
                         <div>
                             <input type="text" class="form-control"
-                                   placeholder="Kullanıcı adı" required=""/>
+                                   placeholder="Kullanıcı adı"
+                                   name="username"/>
                         </div>
                         <div>
                             <input type="email" class="form-control"
-                                   placeholder="Email" required=""/>
+                                   placeholder="Email"
+                                   name="email"/>
                         </div>
                         <div>
                             <input type="password" class="form-control"
-                                   placeholder="Şifre" required=""/>
-                        </div>
-                        <div>
-                            <a class="btn btn-default submit"
-                               href="{% url 'index' %}">Kayıt Ol</a>
+                                   placeholder="Şifre"
+                                   name="password"/>
                         </div>
 
                         <div class="clearfix"></div>
+
+                        <div>
+                            <button class="btn btn-default submit"
+                               id="submit"
+                               type="submit">Kayıt Ol</button>
+                        </div>
 
                         <div class="separator">
                             <p class="change_link">Zaten üye misiniz?

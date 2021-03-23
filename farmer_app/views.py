@@ -1,23 +1,35 @@
-from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from .forms import *
-from .models import *
 from .tables import *
 
 
 # Create your views here.
 def login(request):
-    class_name = "login"
-    return render(request, "farmer_app/pages/login.html",
-                  {"class": class_name})
+    form = UserForm(request.POST, request.FILES)
+    if request.method == "POST":
+        form = UserForm(request.POST, request.FILES)
+    if form.is_valid():
+        form.save()
+    context = {
+        "class": "login",
+        "form": form
+    }
+    return render(request, 'farmer_app/pages/login.html', context)
 
 
 def register(request):
-    class_name = "login"
-    return render(request, "farmer_app/pages/register.html",
-                  {"class": class_name})
+    if request.method == "POST":
+        form = UserForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect("login")
+    else:
+        context = {
+            "class": "login",
+        }
+        return render(request, "farmer_app/pages/register.html", context)
 
 
 def reset_password(request):
