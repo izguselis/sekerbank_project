@@ -14,6 +14,12 @@ class Category(models.Model):
                                  default=False)
     category_image = models.ImageField(verbose_name='Kategori Görseli',
                                        upload_to=upload_form, blank=True)
+    parent = models.ForeignKey('self',
+                               on_delete=models.CASCADE,
+                               related_name='parent_cat',
+                               null=True,
+                               blank=True,
+                               verbose_name='Üst Kategorisi')
 
     def __str__(self):
         return self.category_name
