@@ -20,7 +20,9 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = [
+            "parent",
             "category_name",
             "status",
-            "category_image"
+            "category_image",
+
         ]

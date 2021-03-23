@@ -14,7 +14,7 @@ class ProductTable(tables.Table):
                        "add_url3": "/delete_product/"})
 
     photo = tables.TemplateColumn(
-        '<img src="{{record.photo.url}}" width="75" height="75"/>')
+        '<img src="{% if record.photo.url != null %} {{ record.photo.url }} {% endif %}" width="75" height="75"/>')
 
     class Meta:
         model = Product
@@ -42,14 +42,14 @@ class CategoryTable(tables.Table):
                        "add_url1": "/add_category/",
                        "add_url2": "/delete_category/"})
     category_image = tables.TemplateColumn(
-        '<img src="{{record.category_image.url}}" width="75" height="75"/>')
+        '<img src="{% if record.category_image.url != null %} {{record.category_image.url}} {% endif %}" width="75" height="75"/>')
 
     class Meta:
         model = Category
         fields = (
-            'category_image', 'category_name', 'status', 'edit')
+            'category_image', 'category_name', 'parent','status', 'edit')
         sequence = (
-            'counter', 'category_image', 'category_name', 'status')
+            'counter', 'category_image', 'category_name', 'parent', 'status')
         attrs = {
             "class": "table table-striped table-bordered dt-responsive nowrap",
             "id": "datatable-responsive",
