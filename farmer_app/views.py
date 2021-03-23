@@ -71,6 +71,7 @@ def add_category(request, category_id):
             form = CategoryForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            return redirect("category")
     context = {
         "class": "nav-md",
         "form": form
@@ -109,7 +110,7 @@ def add_product(request, pk):
             form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('/add_product/' + pk)
+            return  redirect("product")
 
     context = {
         "class": "nav-md",
