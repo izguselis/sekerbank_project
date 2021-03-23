@@ -13,7 +13,12 @@
                for="{{ field.id_for_label }}"
                id="{{ field.name }}_lbl">{{ field.label }}</label>
         <div class="col-md-6 col-sm-6 ">
-            {% render_field field class="form-control" %}
+            {% if field.name == 'status' %}
+                {% render_field field class="item col-md-1 col-sm-1" style="width:16px; height:32px" %}
+            {% else %}
+                {% render_field field class="form-control" %}
+            {% endif %}
+
             {% for error in field.errors %}
                 <span class="help-block">{{ error }}</span>
             {% endfor %}

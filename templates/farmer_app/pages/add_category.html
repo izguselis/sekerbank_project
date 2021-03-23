@@ -15,7 +15,8 @@
         <div class="x_content">
             <br/>
             <form method="post"
-                  class="form-horizontal form-label-left" enctype="multipart/form-data">
+                  class="form-horizontal form-label-left"
+                  enctype="multipart/form-data">
                 {% csrf_token %}
                 {% include 'includes/form.html' with form=form %}
             </form>
