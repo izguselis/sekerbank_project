@@ -1,0 +1,33 @@
+{% load  widget_tweaks %}
+
+{% if form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+        {% for error in form.non_field_errors %}
+            <p {% if forloop.last %} class="mb-0" {% endif %}> {{ error }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% for field in form.visible_fields %}
+    <div>
+        {% if field.name == 'is_admin' %}
+            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                   for="{{ field.id_for_label }}"
+                   id="{{ field.name }}_lbl">{{ field.label }}</label>
+            <div class="col-md-6 col-sm-6 ">
+                <div class="checkbox">
+                    {% render_field field class="flat" type="checkbox" %}
+                </div>
+            </div>
+        {% else %}
+            {% render_field field class="form-control" %}
+        {% endif %}
+    </div>
+{% endfor %}
+<div class="clearfix"></div>
+<div>
+    <button class="btn btn-round btn-secondary"
+            id="submit"
+            type="submit">Kayıt Ol
+    </button>
+</div>
