@@ -16,7 +16,7 @@ class User(models.Model):
     password = models.CharField(verbose_name="Şifre",
                                 max_length=50)
     is_admin = models.BooleanField(verbose_name="Admin",
-                                  default=False)
+                                   default=False)
 
     def __str__(self):
         return self.username

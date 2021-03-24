@@ -1,5 +1,4 @@
 from django import forms
-
 from .models import *
 
 
@@ -28,8 +27,21 @@ class CategoryForm(forms.ModelForm):
 
 
 class UserForm(forms.ModelForm):
-    # password = forms.CharField(widget=forms.PasswordInput)
-    # username = forms.TextInput(attrs={'placeholder': 'Kullanıcı Adı'})
+    username = forms.CharField(
+        widget=forms.TextInput(
+            attrs={'placeholder': 'Kullanıcı adı'}
+        )
+    )
+    email = forms.CharField(
+        widget=forms.TextInput(
+            attrs={'placeholder': 'Email'}
+        )
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={'placeholder': 'Şifre'}
+        )
+    )
 
     class Meta:
         model = User

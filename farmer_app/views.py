@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth import login as auth_login
 from django.contrib import messages
 
 from .forms import *
@@ -7,14 +8,18 @@ from .tables import *
 
 # Create your views here.
 def login(request):
-    form = UserForm(request.POST, request.FILES)
     if request.method == "POST":
-        form = UserForm(request.POST, request.FILES)
-    if form.is_valid():
-        form.save()
+        user = User.objects.filter(username=request.user.username,
+                                   password=request.user.password)
+        if user.exists():
+            context = {
+                "class": "nav-md",
+                "user": user[0]
+            }
+            return redirect("index", context)
+
     context = {
-        "class": "login",
-        "form": form
+        "class": "login"
     }
     return render(request, 'farmer_app/pages/login.html', context)
 
@@ -23,13 +28,17 @@ def register(request):
     if request.method == "POST":
         form = UserForm(request.POST or None)
         if form.is_valid():
+            # user = form.save()
+            # auth_login(request, user)
             form.save()
             return redirect("login")
     else:
-        context = {
-            "class": "login",
-        }
-        return render(request, "farmer_app/pages/register.html", context)
+        form = UserForm()
+    context = {
+        "class": "login",
+        "form": form
+    }
+    return render(request, "farmer_app/pages/register.html", context)
 
 
 def reset_password(request):
@@ -79,8 +88,8 @@ def add_category(request, category_id):
     return render(request, 'farmer_app/pages/add_category.html', context)
 
 
-def delete_category(request, Category_id):
-    deleted_category = Category.objects.get(pk=Category_id)
+def delete_category(request, category_id):
+    deleted_category = Category.objects.get(pk=category_id)
     deleted_category.delete()
     return redirect("category")
 
@@ -110,7 +119,7 @@ def add_product(request, pk):
             form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return  redirect("product")
+            return redirect("product")
 
     context = {
         "class": "nav-md",
