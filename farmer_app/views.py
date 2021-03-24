@@ -9,14 +9,15 @@ from .tables import *
 # Create your views here.
 def login(request):
     if request.method == "POST":
-        user = User.objects.filter(username=request.user.username,
-                                   password=request.user.password)
+        username = request.POST['username_id']
+        password = request.POST['password_id']
+        user = User.objects.filter(username=username, password=password)
         if user.exists():
             context = {
                 "class": "nav-md",
                 "user": user[0]
             }
-            return redirect("index", context)
+            return render(request, "farmer_app/pages/index.html", context)
 
     context = {
         "class": "login"
