@@ -9,6 +9,8 @@ from .tables import *
 # Create your views here.
 def login(request):
     if request.method == "POST":
+        # if 'submit' in request.POST:
+        #     return None
         username = request.POST['username_id']
         password = request.POST['password_id']
         user = User.objects.filter(username=username, password=password)
@@ -51,11 +53,10 @@ def reset_password(request):
         if new_password_again != new_password:
             message = "Şifreler aynı olmalıdır"
         else:
-            user = User.objects.filter(email=email)
-            if user.exists():
-                # user.update(password=new_password)
-                user[0].password = new_password
-                user[0].save()
+            user = User.objects.get(email=email)
+            if user:
+                user.password = new_password
+                user.save()
                 return redirect("login")
             else:
                 message = "Mail adresli kullanıcı bulunamamıştır"
