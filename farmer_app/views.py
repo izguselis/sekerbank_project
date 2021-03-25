@@ -43,9 +43,27 @@ def register(request):
 
 
 def reset_password(request):
-    class_name = "login"
-    return render(request, "farmer_app/pages/reset_password.html",
-                  {"class": class_name})
+    message = ""
+    if request.method == "POST":
+        email = request.POST['email_id']
+        new_password = request.POST['new_password_id']
+        new_password_again = request.POST['new_password_again_id']
+        if new_password_again != new_password:
+            message = "Şifreler aynı olmalıdır"
+        else:
+            user = User.objects.filter(email=email)
+            if user.exists():
+                # user.update(password=new_password)
+                user[0].password = new_password
+                user[0].save()
+                return redirect("login")
+            else:
+                message = "Mail adresli kullanıcı bulunamamıştır"
+    context = {
+        "class": "login",
+        "messages": message
+    }
+    return render(request, "farmer_app/pages/reset_password.html", context)
 
 
 def index(request):
