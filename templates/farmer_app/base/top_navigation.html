@@ -13,11 +13,12 @@
                        class="user-profile dropdown-toggle"
                        aria-haspopup="true" id="navbarDropdown"
                        data-toggle="dropdown"
-                       aria-expanded="false">Selis Sözen </a>
+                       aria-expanded="false">{{ user.username }}</a>
                     <div class="dropdown-menu dropdown-usermenu pull-right"
                          aria-labelledby="navbarDropdown">
                         <a class="dropdown-item"
-                           href=""><i class="fa fa-user pull-right"></i>
+                           href="{% url 'profile' user_id=user.pk %}"><i
+                                class="fa fa-user pull-right"></i>
                             Profilim</a>
                         <a class="dropdown-item"
                            href=""><i class="fa fa-lock pull-right"></i>

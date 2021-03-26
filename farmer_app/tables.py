@@ -14,7 +14,8 @@ class ProductTable(tables.Table):
                        "add_url3": "/delete_product/"})
 
     photo = tables.TemplateColumn(
-        '<img src="{% if record.photo.url != null %} {{ record.photo.url }} {% endif %}" width="75" height="75"/>')
+        '<img src="{% if record.photo.url != null %} {{ record.photo.url }} '
+        '{% endif %}" width="75" height="75"/>')
 
     class Meta:
         model = Product
@@ -47,7 +48,7 @@ class CategoryTable(tables.Table):
     class Meta:
         model = Category
         fields = (
-            'category_image', 'category_name', 'parent','status', 'edit')
+            'category_image', 'category_name', 'parent', 'status', 'edit')
         sequence = (
             'counter', 'category_image', 'category_name', 'parent', 'status')
         attrs = {

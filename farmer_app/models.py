@@ -1,25 +1,20 @@
+from django.conf import settings
 from django.db import models
 import os
+
+RECEIVED = 0
+SHIPPED = 1
+DONE = 2
+STATUS_CHOICES = (
+    (RECEIVED, 'Siparişiniz alındı'),
+    (SHIPPED, 'Siparişiniz kargolandı'),
+    (DONE, 'Siparişiniz tamamlandı'),
+)
 
 
 # Create your models here.
 def upload_form(instance, filename):
     return os.path.join('image/', filename)
-
-
-class User(models.Model):
-    username = models.CharField(verbose_name="Kullanıcı adı",
-                                max_length=50)
-    email = models.EmailField(verbose_name="e-mail adresi",
-                              max_length=255,
-                              unique=True)
-    password = models.CharField(verbose_name="Şifre",
-                                max_length=50)
-    is_admin = models.BooleanField(verbose_name="Admin",
-                                   default=False)
-
-    def __str__(self):
-        return self.username
 
 
 class Category(models.Model):
@@ -84,13 +79,40 @@ class OrderItem(models.Model):
         return self.product.name_tr
 
 
+class User(models.Model):
+    username = models.CharField(verbose_name="Kullanıcı adı",
+                                max_length=50)
+    email = models.EmailField(verbose_name="e-mail adresi",
+                              max_length=255,
+                              unique=True)
+    password = models.CharField(verbose_name="Şifre",
+                                max_length=50)
+    is_admin = models.BooleanField(verbose_name="Admin",
+                                   default=False)
+    orders = models.ManyToManyField(Product,
+                                    blank=True)
+
+    def __str__(self):
+        return self.username
+
+
 class Order(models.Model):
+    ref_code = models.CharField(max_length=15)
+    owner = models.ForeignKey(User,
+                              on_delete=models.SET_NULL,
+                              null=True)
     is_ordered = models.BooleanField(default=False)
     items = models.ManyToManyField(OrderItem)
     date_ordered = models.DateTimeField(auto_now=True)
+    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES,
+                                              default=RECEIVED
+                                              )
 
     def get_cart_items(self):
         return sum([item.quantity for item in self.items.all()])
 
     def get_cart_total(self):
         return sum([item.product.price for item in self.items.all()])
+
+    def __str__(self):
+        return '{0} - {1}'.format(self.owner, self.ref_code)

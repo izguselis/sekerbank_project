@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login as auth_login
 from django.contrib import messages
 
+from .extras import generate_order_id
 from .forms import *
 from .tables import *
 
@@ -20,7 +21,9 @@ def login(request):
                 "user": user[0]
             }
             return render(request, "farmer_app/pages/index.html", context)
-
+        else:
+            messages.warning(request,
+                             'Kullanıcı bilgileri yanlış girilmiştir')
     context = {
         "class": "login"
     }
@@ -45,13 +48,14 @@ def register(request):
 
 
 def reset_password(request):
-    message = ""
+    # message = ""
     if request.method == "POST":
         email = request.POST['email_id']
         new_password = request.POST['new_password_id']
         new_password_again = request.POST['new_password_again_id']
         if new_password_again != new_password:
-            message = "Şifreler aynı olmalıdır"
+            messages.warning(request, 'Şifreler aynı olmalıdır')
+            # message = "Şifreler aynı olmalıdır"
         else:
             user = User.objects.get(email=email)
             if user:
@@ -59,12 +63,24 @@ def reset_password(request):
                 user.save()
                 return redirect("login")
             else:
-                message = "Mail adresli kullanıcı bulunamamıştır"
+                messages.warning(request,
+                                 'Mail adresli kullanıcı bulunamamıştır')
+            #  message = "Mail adresli kullanıcı bulunamamıştır"
     context = {
         "class": "login",
-        "messages": message
+        # "messages": message
     }
     return render(request, "farmer_app/pages/reset_password.html", context)
+
+
+def profile(request, user_id):
+    user_profile = User.objects.filter(pk=user_id)
+    orders = Order.objects.filter(is_ordered=True, owner=user_profile)
+    context = {
+        "class": "nav-md",
+        # "orders": orders
+    }
+    return render(request, "farmer_app/pages/profile.html", context)
 
 
 def index(request):
@@ -162,8 +178,7 @@ def cart(request):
     item_count = get_item_count()
     sub_total = 0
     if order.exists():
-        sub_total = order[0].get_cart_total()
-
+        sub_total = order.first().get_cart_total()
     context = {
         "class": "nav-md",
         "table": item_table,
@@ -176,14 +191,19 @@ def cart(request):
 
 
 def add_cart(request, product_id):
+    # get the user profile
+    # user_profile = User.objects.filter(pk=user_id)
     # filter products by id
     product = Product.objects.get(pk=product_id)
     # create orderItem of the selected product
     order_item, status = OrderItem.objects.get_or_create(product=product)
     # create order associated with the user
+    # user_order, status = Order.objects.get_or_create(owner=user_profile,
+    #                                                  is_ordered=False)
     user_order, status = Order.objects.get_or_create(is_ordered=False)
     user_order.items.add(order_item)
     if status:
+        user_order.ref_code = generate_order_id()
         user_order.save()
     # show confirmation message and redirect back to the same page
     messages.info(request, "Ürün sepete eklendi")
