@@ -1,0 +1,42 @@
+{% extends "farmer_app/base/header.html" %}
+{% block title %}
+    Kayıt Ol Sayfası
+{% endblock title %}
+{% block login_content %}
+    <div>
+        <div class="login_wrapper">
+            <div class="animate form login_form">
+                <section class="login_content">
+                    <form method="post">
+                        <h1>Hesap Oluştur</h1>
+                        {% csrf_token %}
+                        {{ form }}
+                        <div class="clearfix"></div>
+                        <div>
+                            <button class="btn btn-round btn-secondary"
+                                    id="submit"
+                                    type="submit">Kayıt Ol
+                            </button>
+                        </div>
+                        <div class="separator">
+                            <p class="change_link">Zaten üye misiniz?
+                                {#                                <a href="{% url 'login' %}"#}
+                                {#                                   class="to_register"> Giriş#}
+                                {#                                    Yap </a>#}
+                            </p>
+
+                            <div class="clearfix"></div>
+                            <br/>
+
+                            <div>
+                                <h1>Bisfora Teknoloji</h1>
+                                <p>©2021 All Rights Reserved.Privacy and
+                                    Terms</p>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+{% endblock login_content %}

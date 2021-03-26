@@ -8,43 +8,43 @@ from .tables import *
 
 
 # Create your views here.
-def login(request):
-    if request.method == "POST":
-        # if 'submit' in request.POST:
-        #     return None
-        username = request.POST['username_id']
-        password = request.POST['password_id']
-        user = User.objects.filter(username=username, password=password)
-        if user.exists():
-            context = {
-                "class": "nav-md",
-                "user": user[0]
-            }
-            return render(request, "farmer_app/pages/index.html", context)
-        else:
-            messages.warning(request,
-                             'Kullanıcı bilgileri yanlış girilmiştir')
-    context = {
-        "class": "login"
-    }
-    return render(request, 'farmer_app/pages/login.html', context)
+# def login(request):
+#     if request.method == "POST":
+#         # if 'submit' in request.POST:
+#         #     return None
+#         username = request.POST['username_id']
+#         password = request.POST['password_id']
+#         user = User.objects.filter(username=username, password=password)
+#         if user.exists():
+#             context = {
+#                 "class": "nav-md",
+#                 "user": user[0]
+#             }
+#             return render(request, "farmer_app/pages/index.html", context)
+#         else:
+#             messages.warning(request,
+#                              'Kullanıcı bilgileri yanlış girilmiştir')
+#     context = {
+#         "class": "login"
+#     }
+#     return render(request, 'farmer_app/pages/login.html', context)
 
 
-def register(request):
-    if request.method == "POST":
-        form = UserForm(request.POST or None)
-        if form.is_valid():
-            # user = form.save()
-            # auth_login(request, user)
-            form.save()
-            return redirect("login")
-    else:
-        form = UserForm()
-    context = {
-        "class": "login",
-        "form": form
-    }
-    return render(request, "farmer_app/pages/register.html", context)
+# def register(request):
+#     if request.method == "POST":
+#         form = UserForm(request.POST or None)
+#         if form.is_valid():
+#             # user = form.save()
+#             # auth_login(request, user)
+#             form.save()
+#             return redirect("login")
+#     else:
+#         form = UserForm()
+#     context = {
+#         "class": "login",
+#         "form": form
+#     }
+#     return render(request, "farmer_app/pages/register.html", context)
 
 
 def reset_password(request):

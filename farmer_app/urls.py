@@ -3,10 +3,12 @@ from django.conf.urls.static import static
 from . import views
 from django.conf import settings
 
+app_name = "farmer"
+
 urlpatterns = [
-                  path('', views.login, name="login"),
+                  # path('', views.login, name="login"),
                   path('index/', views.index, name="index"),
-                  path('register/', views.register, name="register"),
+                  # path('register/', views.register, name="register"),
                   path('reset_password/', views.reset_password,
                        name="reset_password"),
                   path('profile/<user_id>', views.profile, name="profile"),

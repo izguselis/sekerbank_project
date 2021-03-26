@@ -1,0 +1,51 @@
+{% extends "farmer_app/base/header.html" %}
+{% block title %}
+    Giriş Sayfası
+{% endblock title %}
+{% block login_content %}
+    <div>
+        <div class="login_wrapper">
+            <div class="animate form login_form">
+                <section class="login_content">
+                    <form method="post"
+                          class="form-horizontal form-label-left">
+                        <h1>Giriş Formu</h1>
+                        {% csrf_token %}
+                        {{ form }}
+                        <div>
+                            <button id="submit"
+                                    type="submit"
+                                    class="btn btn-success">
+                                Giriş Yap
+                            </button>
+                        </div>
+                        <div>
+                            {#                            <a class="reset_pass"#}
+                            {#                               href="{% url 'reset_password' %}">Şifrenizi mi#}
+                            {#                                unuttunuz?</a>#}
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <div class="separator">
+                            <p class="change_link">Sitede yeni misiniz?
+                                <a href="{% url 'accounts:register' %}"
+                                   class="to_register"> Hesap
+                                    Oluştur </a>
+                            </p>
+
+                            <div class="clearfix"></div>
+                            <br/>
+
+                            <div>
+                                <h1>Bisfora Teknoloji</h1>
+                                <p>©2021 All Rights Reserved. Privacy and
+                                    Terms</p>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+{% endblock login_content %}

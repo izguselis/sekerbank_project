@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'farmer_app.apps.FarmerAppConfig',
+    'accounts',
     'widget_tweaks',
     'django_tables2',
 ]
