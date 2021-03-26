@@ -78,7 +78,7 @@ def profile(request, user_id):
     orders = Order.objects.filter(is_ordered=True, owner=user_profile)
     context = {
         "class": "nav-md",
-        # "orders": orders
+        "orders": orders
     }
     return render(request, "farmer_app/pages/profile.html", context)
 
@@ -174,11 +174,8 @@ def delete_product(request, product_id):
 def cart(request):
     items = OrderItem.objects.all()
     item_table = OrderItemTable(items)
-    order = Order.objects.filter(is_ordered=False)
     item_count = get_item_count()
-    sub_total = 0
-    if order.exists():
-        sub_total = order.first().get_cart_total()
+    sub_total = get_cart_total()
     context = {
         "class": "nav-md",
         "table": item_table,
@@ -186,25 +183,20 @@ def cart(request):
         "item_list": items,
         "item_count": item_count
     }
-
     return render(request, "farmer_app/pages/cart.html", context)
 
 
 def add_cart(request, product_id):
-    # get the user profile
-    # user_profile = User.objects.filter(pk=user_id)
     # filter products by id
     product = Product.objects.get(pk=product_id)
     # create orderItem of the selected product
     order_item, status = OrderItem.objects.get_or_create(product=product)
     # create order associated with the user
-    # user_order, status = Order.objects.get_or_create(owner=user_profile,
-    #                                                  is_ordered=False)
-    user_order, status = Order.objects.get_or_create(is_ordered=False)
-    user_order.items.add(order_item)
-    if status:
-        user_order.ref_code = generate_order_id()
-        user_order.save()
+    # user_order, status = Order.objects.get_or_create(is_ordered=False)
+    # user_order.items.add(order_item)
+    # if status:
+    #     user_order.ref_code = generate_order_id()
+    #     user_order.save()
     # show confirmation message and redirect back to the same page
     messages.info(request, "Ürün sepete eklendi")
     return redirect("product")
@@ -217,10 +209,28 @@ def delete_from_cart(request, product_id):
     return redirect("cart")
 
 
+def purchase_cart(request, user_id):
+    # get the user profile
+    user_profile = User.objects.get(pk=user_id)
+    # create order associated with the user
+    user_order, status = Order.objects.get_or_create(owner=user_profile,
+                                                     is_ordered=False)
+    items = OrderItem.objects.all()
+    for item in items:
+        user_order.items.add(item)
+    if status:
+        user_order.ref_code = generate_order_id()
+        user_order.save()
+        items.delete()
+    messages.success(request, "Siparişiniz tamamlandı")
+    return redirect("index")
+
+
 def get_item_count():
-    order = Order.objects.filter(is_ordered=False)
-    if order.exists():
-        item_count = order[0].get_cart_items()
-        return item_count
-    else:
-        return 0
+    items = OrderItem.objects.all()
+    return sum([item.quantity for item in items.all()])
+
+
+def get_cart_total():
+    items = OrderItem.objects.all()
+    return sum([item.product.price for item in items.all()])

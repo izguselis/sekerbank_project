@@ -8,10 +8,10 @@
     {{ message }}
     <table class="table table-hover table-bordered text-center">
         <tr class="text-center">
-            <th>Date Ordered</th>
-            <th>Reference Code</th>
-            <th>Items</th>
-            <th>Price</th>
+            <th>Sipariş Tarihi</th>
+            <th>Referans Kodu</th>
+            <th>Ürünler</th>
+            <th>Toplam Fiyat</th>
         </tr>
         {% for order in my_orders %}
             <tr>
@@ -27,7 +27,7 @@
             </tr>
         {% empty %}
             <tr>
-                <td colspan=4> You have no orders.</td>
+                <td colspan=4> Siparişiniz bulunmamaktadır. </td>
             </tr>
         {% endfor %}
 
@@ -35,8 +35,7 @@
             <td colspan=4>
                 <a href="{% url 'product' %}"
                    class="btn btn-warning pull-left">
-                    {% if not order %}Continue Shopping{% else %}Add Items to
-                        Cart {% endif %}
+                    Alışverişe Devam Et
                 </a>
             </td>
         </tr>
