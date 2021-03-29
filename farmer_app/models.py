@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 import os
+from django.contrib.auth.models import User
 
 RECEIVED = 0
 SHIPPED = 1
@@ -79,27 +80,39 @@ class OrderItem(models.Model):
         return self.product.name_tr
 
 
-class User(models.Model):
-    username = models.CharField(verbose_name="Kullanıcı adı",
-                                max_length=50)
-    email = models.EmailField(verbose_name="e-mail adresi",
-                              max_length=255,
-                              unique=True)
-    password = models.CharField(verbose_name="Şifre",
-                                max_length=50)
-    is_admin = models.BooleanField(verbose_name="Admin",
-                                   default=False)
-    orders = models.ManyToManyField(Product,
-                                    blank=True)
+# class User(models.Model):
+#     username = models.CharField(verbose_name="Kullanıcı adı",
+#                                 max_length=50)
+#     email = models.EmailField(verbose_name="e-mail adresi",
+#                               max_length=255,
+#                               unique=True)
+#     password = models.CharField(verbose_name="Şifre",
+#                                 max_length=50)
+#     is_admin = models.BooleanField(verbose_name="Admin",
+#                                    default=False)
+#     orders = models.ManyToManyField(Product,
+#                                     blank=True)
+#
+#     def __str__(self):
+#         return self.username
 
-    def __str__(self):
-        return self.username
+
+# class Profile(models.Model):
+#     user = models.OneToOneField(settings.AUTH_USER_MODEL,
+#                                 on_delete=models.CASCADE)
+#     products = models.ManyToManyField(Product, blank=True)
+#
+#     def __str__(self):
+#         return self.user.username
 
 
 class Order(models.Model):
     ref_code = models.CharField(max_length=15)
+    # owner = models.ForeignKey(User,
+    #                           on_delete=models.SET_NULL,
+    #                           null=True)
     owner = models.ForeignKey(User,
-                              on_delete=models.SET_NULL,
+                              on_delete=models.CASCADE,
                               null=True)
     is_ordered = models.BooleanField(default=False)
     items = models.ManyToManyField(OrderItem)

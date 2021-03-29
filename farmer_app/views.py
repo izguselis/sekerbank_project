@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login as auth_login
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from .extras import generate_order_id
 from .forms import *
@@ -47,35 +47,46 @@ from .tables import *
 #     return render(request, "farmer_app/pages/register.html", context)
 
 
-def reset_password(request):
-    # message = ""
-    if request.method == "POST":
-        email = request.POST['email_id']
-        new_password = request.POST['new_password_id']
-        new_password_again = request.POST['new_password_again_id']
-        if new_password_again != new_password:
-            messages.warning(request, 'Şifreler aynı olmalıdır')
-            # message = "Şifreler aynı olmalıdır"
-        else:
-            user = User.objects.get(email=email)
-            if user:
-                user.password = new_password
-                user.save()
-                return redirect("login")
-            else:
-                messages.warning(request,
-                                 'Mail adresli kullanıcı bulunamamıştır')
-            #  message = "Mail adresli kullanıcı bulunamamıştır"
-    context = {
-        "class": "login",
-        # "messages": message
-    }
-    return render(request, "farmer_app/pages/reset_password.html", context)
+# def reset_password(request):
+#     # message = ""
+#     if request.method == "POST":
+#         email = request.POST['email_id']
+#         new_password = request.POST['new_password_id']
+#         new_password_again = request.POST['new_password_again_id']
+#         if new_password_again != new_password:
+#             messages.warning(request, 'Şifreler aynı olmalıdır')
+#             # message = "Şifreler aynı olmalıdır"
+#         else:
+#             user = User.objects.get(email=email)
+#             if user:
+#                 user.password = new_password
+#                 user.save()
+#                 return redirect("login")
+#             else:
+#                 messages.warning(request,
+#                                  'Mail adresli kullanıcı bulunamamıştır')
+#             #  message = "Mail adresli kullanıcı bulunamamıştır"
+#     context = {
+#         "class": "login",
+#         # "messages": message
+#     }
+#     return render(request, "farmer_app/pages/reset_password.html", context)
 
 
-def profile(request, user_id):
-    user_profile = User.objects.filter(pk=user_id)
-    orders = Order.objects.filter(is_ordered=True, owner=user_profile)
+# def profile(request, user_id):
+#     user_profile = User.objects.filter(pk=user_id)
+#     orders = Order.objects.filter(is_ordered=True, owner=user_profile)
+#     context = {
+#         "class": "nav-md",
+#         "orders": orders
+#     }
+#     return render(request, "farmer_app/pages/profile.html", context)
+
+
+@login_required()
+def profile(request):
+    # owner = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
+    orders = Order.objects.filter(is_ordered=True, owner=request.user)
     context = {
         "class": "nav-md",
         "orders": orders
@@ -83,6 +94,7 @@ def profile(request, user_id):
     return render(request, "farmer_app/pages/profile.html", context)
 
 
+@login_required()
 def index(request):
     item_count = get_item_count()
     context = {
@@ -92,6 +104,7 @@ def index(request):
     return render(request, "farmer_app/pages/index.html", context)
 
 
+@login_required()
 def category(request):
     category_table = CategoryTable(Category.objects.all())
     item_count = get_item_count()
@@ -103,6 +116,7 @@ def category(request):
     return render(request, "farmer_app/pages/category.html", context)
 
 
+@login_required()
 def add_category(request, category_id):
     if category_id != '0':
         edit = Category.objects.get(pk=category_id)
@@ -116,7 +130,7 @@ def add_category(request, category_id):
             form = CategoryForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect("category")
+            return redirect("farmer:category")
     context = {
         "class": "nav-md",
         "form": form
@@ -124,12 +138,14 @@ def add_category(request, category_id):
     return render(request, 'farmer_app/pages/add_category.html', context)
 
 
+@login_required()
 def delete_category(request, category_id):
     deleted_category = Category.objects.get(pk=category_id)
     deleted_category.delete()
-    return redirect("category")
+    return redirect("farmer:category")
 
 
+@login_required()
 def product(request):
     product_table = ProductTable(Product.objects.all())
     item_count = get_item_count()
@@ -141,6 +157,7 @@ def product(request):
     return render(request, "farmer_app/pages/product.html", context)
 
 
+@login_required()
 def add_product(request, pk):
     if pk != '0':
         edit = Product.objects.get(pk=pk)
@@ -155,7 +172,7 @@ def add_product(request, pk):
             form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect("product")
+            return redirect("farmer:product")
 
     context = {
         "class": "nav-md",
@@ -165,12 +182,14 @@ def add_product(request, pk):
     return render(request, 'farmer_app/pages/add_product.html', context)
 
 
+@login_required()
 def delete_product(request, product_id):
     deleted_product = Product.objects.get(pk=product_id)
     deleted_product.delete()
-    return redirect("product")
+    return redirect("farmer:product")
 
 
+@login_required()
 def cart(request):
     items = OrderItem.objects.all()
     item_table = OrderItemTable(items)
@@ -186,44 +205,42 @@ def cart(request):
     return render(request, "farmer_app/pages/cart.html", context)
 
 
+@login_required()
 def add_cart(request, product_id):
     # filter products by id
-    product = Product.objects.get(pk=product_id)
+    added_product = Product.objects.filter(pk=product_id).first()
     # create orderItem of the selected product
-    order_item, status = OrderItem.objects.get_or_create(product=product)
-    # create order associated with the user
-    # user_order, status = Order.objects.get_or_create(is_ordered=False)
-    # user_order.items.add(order_item)
-    # if status:
-    #     user_order.ref_code = generate_order_id()
-    #     user_order.save()
+    OrderItem.objects.get_or_create(product=added_product)
     # show confirmation message and redirect back to the same page
     messages.info(request, "Ürün sepete eklendi")
-    return redirect("product")
+    return redirect("farmer:product")
 
 
+@login_required()
 def delete_from_cart(request, product_id):
     deleted_item = OrderItem.objects.get(pk=product_id)
     deleted_item.delete()
     messages.info(request, "Ürün sepetten silindi")
-    return redirect("cart")
+    return redirect("farmer:cart")
 
 
-def purchase_cart(request, user_id):
+@login_required()
+def purchase_cart(request):
     # get the user profile
-    user_profile = User.objects.get(pk=user_id)
+    user_profile = request.user
     # create order associated with the user
-    user_order, status = Order.objects.get_or_create(owner=user_profile,
-                                                     is_ordered=False)
-    items = OrderItem.objects.all()
+    user_order = Order.objects.create(owner=user_profile,
+                                      is_ordered=True)
+    items = OrderItem.objects.filter(is_ordered=False)
     for item in items:
+        item.is_ordered = True
+        item.save()
         user_order.items.add(item)
-    if status:
-        user_order.ref_code = generate_order_id()
-        user_order.save()
-        items.delete()
+    user_order.ref_code = generate_order_id()
+    user_order.save()
+    items.delete()
     messages.success(request, "Siparişiniz tamamlandı")
-    return redirect("index")
+    return redirect("farmer:index")
 
 
 def get_item_count():
