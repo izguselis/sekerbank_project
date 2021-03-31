@@ -105,8 +105,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-# LANGUAGE_CODE = 'en-us'
-LANGUAGE_CODE = 'es'
+LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 
@@ -115,6 +115,11 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+LANGUAGES = [
+    ("en", "English"),
+    ("es", "Spanish"),
+]
 
 # Contains the path list where Django should look into for django.po files for all supported languages
 LOCALE_PATHS = (

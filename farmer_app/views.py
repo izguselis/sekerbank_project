@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.utils import translation
 from django.utils.translation import gettext as _
 
 from .extras import generate_order_id
@@ -50,6 +51,11 @@ def profile(request):
 
 @login_required()
 def index(request):
+    # user_language = "es"
+    # translation.activate(user_language)
+    # request.session[translation.LANGUAGE_SESSION_KEY] = user_language
+    if translation.LANGUAGE_SESSION_KEY in request.session:
+        del request.session[translation.LANGUAGE_SESSION_KEY]
     item_count = get_item_count()
     context = {
         "class": "nav-md",
