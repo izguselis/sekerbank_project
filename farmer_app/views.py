@@ -85,11 +85,13 @@ from .tables import *
 
 @login_required()
 def profile(request):
+    item_count = get_item_count()
     # owner = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
     orders = Order.objects.filter(is_ordered=True, owner=request.user)
     context = {
         "class": "nav-md",
-        "orders": orders
+        "orders": orders,
+        "item_count": item_count
     }
     return render(request, "farmer_app/pages/profile.html", context)
 
@@ -191,7 +193,7 @@ def delete_product(request, product_id):
 
 @login_required()
 def cart(request):
-    items = OrderItem.objects.all()
+    items = OrderItem.objects.filter(is_ordered=False)
     item_table = OrderItemTable(items)
     item_count = get_item_count()
     sub_total = get_cart_total()
@@ -238,13 +240,13 @@ def purchase_cart(request):
         user_order.items.add(item)
     user_order.ref_code = generate_order_id()
     user_order.save()
-    items.delete()
+    # items.delete()
     messages.success(request, "Siparişiniz tamamlandı")
     return redirect("farmer:index")
 
 
 def get_item_count():
-    items = OrderItem.objects.all()
+    items = OrderItem.objects.filter(is_ordered=False)
     return sum([item.quantity for item in items.all()])
 
 

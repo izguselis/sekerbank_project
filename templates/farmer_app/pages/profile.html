@@ -13,16 +13,16 @@
             <th>Ürünler</th>
             <th>Toplam Fiyat</th>
         </tr>
-        {% for order in my_orders %}
+        {% for order in orders %}
             <tr>
                 <td>{{ order.date_ordered }}</td>
                 <td>{{ order.ref_code }}</td>
                 <td>
                     {% for item in order.items.all %}
-                        {{ item.product.name }}
+                        {{ item.product.name_tr }} -
                     {% endfor %}
                 </td>
-                <td>${{ order.get_cart_total }}</td>
+                <td>{{ order.get_cart_total }}₺</td>
 
             </tr>
         {% empty %}
