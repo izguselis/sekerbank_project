@@ -108,9 +108,6 @@ class OrderItem(models.Model):
 
 class Order(models.Model):
     ref_code = models.CharField(max_length=15)
-    # owner = models.ForeignKey(User,
-    #                           on_delete=models.SET_NULL,
-    #                           null=True)
     owner = models.ForeignKey(User,
                               on_delete=models.CASCADE,
                               null=True)

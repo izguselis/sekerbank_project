@@ -1,8 +1,10 @@
 {% extends "farmer_app/base/header.html" %}
+{% load i18n %}
 {% block title %}
     Ana Sayfa
 {% endblock title %}
 {% block content %}
-
+    <h1>{{ hello }}</h1>
+    <h2>{% trans "My name is Selis" %}</h2>
 {% endblock content %}
 

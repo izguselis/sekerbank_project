@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import gettext as _
 
 from .extras import generate_order_id
 from .forms import *
@@ -8,44 +9,6 @@ from .tables import *
 
 
 # Create your views here.
-# def login(request):
-#     if request.method == "POST":
-#         # if 'submit' in request.POST:
-#         #     return None
-#         username = request.POST['username_id']
-#         password = request.POST['password_id']
-#         user = User.objects.filter(username=username, password=password)
-#         if user.exists():
-#             context = {
-#                 "class": "nav-md",
-#                 "user": user[0]
-#             }
-#             return render(request, "farmer_app/pages/index.html", context)
-#         else:
-#             messages.warning(request,
-#                              'Kullanıcı bilgileri yanlış girilmiştir')
-#     context = {
-#         "class": "login"
-#     }
-#     return render(request, 'farmer_app/pages/login.html', context)
-
-
-# def register(request):
-#     if request.method == "POST":
-#         form = UserForm(request.POST or None)
-#         if form.is_valid():
-#             # user = form.save()
-#             # auth_login(request, user)
-#             form.save()
-#             return redirect("login")
-#     else:
-#         form = UserForm()
-#     context = {
-#         "class": "login",
-#         "form": form
-#     }
-#     return render(request, "farmer_app/pages/register.html", context)
-
 
 # def reset_password(request):
 #     # message = ""
@@ -73,20 +36,9 @@ from .tables import *
 #     return render(request, "farmer_app/pages/reset_password.html", context)
 
 
-# def profile(request, user_id):
-#     user_profile = User.objects.filter(pk=user_id)
-#     orders = Order.objects.filter(is_ordered=True, owner=user_profile)
-#     context = {
-#         "class": "nav-md",
-#         "orders": orders
-#     }
-#     return render(request, "farmer_app/pages/profile.html", context)
-
-
 @login_required()
 def profile(request):
     item_count = get_item_count()
-    # owner = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
     orders = Order.objects.filter(is_ordered=True, owner=request.user)
     context = {
         "class": "nav-md",
@@ -101,7 +53,8 @@ def index(request):
     item_count = get_item_count()
     context = {
         "class": "nav-md",
-        "item_count": item_count
+        "item_count": item_count,
+        "hello": _("hello")
     }
     return render(request, "farmer_app/pages/index.html", context)
 
