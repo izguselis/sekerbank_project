@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!-- top navigation -->
 <div class="top_nav">
     <div class="nav_menu">
@@ -19,16 +20,56 @@
                         <a class="dropdown-item"
                            href="{% url 'farmer:profile' %}"><i
                                 class="fa fa-user pull-right"></i>
-                            Profilim</a>
+                            {{ profile_page }}</a>
                         <a class="dropdown-item"
                            href=""><i class="fa fa-lock pull-right"></i>
-                            Şifre Değiştir</a>
+                            {{ change_password }}</a>
                         <a class="dropdown-item"
                            href="{% url 'accounts:logout' %}"><i
                                 class="fa fa-sign-out pull-right"></i>
-                            Çıkış Yap</a>
+                            {{ quit }}</a>
                     </div>
                 </li>
+
+                <li class="nav-item dropdown open"
+                    style="padding-left: 15px;">
+                    <a href="javascript:;"
+                       class="user-profile dropdown-toggle"
+                       aria-haspopup="true" id="navbarDropdown"
+                       data-toggle="dropdown"
+                       aria-expanded="false">Dil</a>
+                    <div class="dropdown-menu dropdown-usermenu pull-right"
+                         aria-labelledby="navbarDropdown">
+                        <form action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="text">
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                                <button class="dropdown-item" name="{{ language.code }}" type="submit"
+                                        value="{{ language.code }}" >
+                                    {{ language.name_local }}
+                                    ({{ language.code }})
+                                </button>
+                            {% endfor %}
+                            <select class="dropdown-item" name="language" id=""
+                                    onclick="this.form.submit()">
+                                {% get_available_languages as LANGUAGES %}
+                                {% get_language_info_list for LANGUAGES as languages %}
+                                {% for language in languages %}
+                                    <option value="{{ language.code }}"
+                                            {% if language.code == LANGUAGE_CODE %}
+                                            selected
+                                            {% endif %}>
+                                        {{ language.name_local }}
+                                        ({{ language.code }})
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </div>
+                </li>
+
                 <li role="presentation" class="nav-item">
                     <a href="{% url 'farmer:cart' %}"
                        class="dropdown-toggle info-number"

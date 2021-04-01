@@ -51,29 +51,17 @@ def profile(request):
 
 @login_required()
 def index(request):
-    # user_language = "es"
-    # translation.activate(user_language)
-    # request.session[translation.LANGUAGE_SESSION_KEY] = user_language
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY]
-    item_count = get_item_count()
-    context = {
-        "class": "nav-md",
-        "item_count": item_count,
-        "hello": _("hello")
-    }
+    context = get_context()
     return render(request, "farmer_app/pages/index.html", context)
 
 
 @login_required()
 def category(request):
     category_table = CategoryTable(Category.objects.all())
-    item_count = get_item_count()
-    context = {
-        "class": "nav-md",
-        "table": category_table,
-        "item_count": item_count
-    }
+    context = get_context()
+    context.update({"table": category_table})
     return render(request, "farmer_app/pages/category.html", context)
 
 
@@ -92,10 +80,8 @@ def add_category(request, category_id):
         if form.is_valid():
             form.save()
             return redirect("farmer:category")
-    context = {
-        "class": "nav-md",
-        "form": form
-    }
+    context = get_context()
+    context.update({"form": form})
     return render(request, 'farmer_app/pages/add_category.html', context)
 
 
@@ -109,12 +95,8 @@ def delete_category(request, category_id):
 @login_required()
 def product(request):
     product_table = ProductTable(Product.objects.all())
-    item_count = get_item_count()
-    context = {
-        "class": "nav-md",
-        "table": product_table,
-        "item_count": item_count
-    }
+    context = get_context()
+    context.update({"table": product_table})
     return render(request, "farmer_app/pages/product.html", context)
 
 
@@ -134,12 +116,8 @@ def add_product(request, pk):
         if form.is_valid():
             form.save()
             return redirect("farmer:product")
-
-    context = {
-        "class": "nav-md",
-        "form": form,
-        "pk": pk
-    }
+    context = get_context()
+    context.update({"form": form})
     return render(request, 'farmer_app/pages/add_product.html', context)
 
 
@@ -154,15 +132,10 @@ def delete_product(request, product_id):
 def cart(request):
     items = OrderItem.objects.filter(is_ordered=False)
     item_table = OrderItemTable(items)
-    item_count = get_item_count()
     sub_total = get_cart_total()
-    context = {
-        "class": "nav-md",
-        "table": item_table,
-        "sub_total": sub_total,
-        "item_list": items,
-        "item_count": item_count
-    }
+    context = get_context()
+    context.update({"sub_total": sub_total,
+                    "table": item_table})
     return render(request, "farmer_app/pages/cart.html", context)
 
 
@@ -199,7 +172,6 @@ def purchase_cart(request):
         user_order.items.add(item)
     user_order.ref_code = generate_order_id()
     user_order.save()
-    # items.delete()
     messages.success(request, "Siparişiniz tamamlandı")
     return redirect("farmer:index")
 
@@ -210,5 +182,21 @@ def get_item_count():
 
 
 def get_cart_total():
-    items = OrderItem.objects.all()
+    items = OrderItem.objects.filter(is_ordered=False)
     return sum([item.product.price for item in items.all()])
+
+
+def get_context():
+    item_count = get_item_count()
+    context = {
+        "class": "nav-md",
+        "item_count": item_count,
+        "hello": _("Merhaba"),
+        "home_page": _("Giriş Ekranı"),
+        "category_page": _("Kategoriler"),
+        "product_page": _("Ürünler"),
+        "profile_page": _("Profilim"),
+        "change_password": _("Şifre Değiştir"),
+        "quit": _("Çıkış Yap"),
+    }
+    return context

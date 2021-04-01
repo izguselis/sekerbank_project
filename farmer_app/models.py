@@ -74,7 +74,7 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(verbose_name='Miktar',
                                    default=1)
     is_ordered = models.BooleanField(default=False)
-    date_ordered = models.DateTimeField(null=True)
+    # date_ordered = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.product.name_tr
