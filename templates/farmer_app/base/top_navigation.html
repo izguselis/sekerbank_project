@@ -31,42 +31,26 @@
                     </div>
                 </li>
 
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
                 <li class="nav-item dropdown open"
                     style="padding-left: 15px;">
                     <a href="javascript:;"
                        class="user-profile dropdown-toggle"
                        aria-haspopup="true" id="navbarDropdown"
                        data-toggle="dropdown"
-                       aria-expanded="false">Dil</a>
+                       aria-expanded="false">{{ language }}</a>
                     <div class="dropdown-menu dropdown-usermenu pull-right"
-                         aria-labelledby="navbarDropdown">
-                        <form action="{% url 'set_language' %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="text">
-                            {% get_available_languages as LANGUAGES %}
-                            {% get_language_info_list for LANGUAGES as languages %}
-                            {% for language in languages %}
-                                <button class="dropdown-item" name="{{ language.code }}" type="submit"
-                                        value="{{ language.code }}" >
-                                    {{ language.name_local }}
-                                    ({{ language.code }})
-                                </button>
-                            {% endfor %}
-                            <select class="dropdown-item" name="language" id=""
-                                    onclick="this.form.submit()">
-                                {% get_available_languages as LANGUAGES %}
-                                {% get_language_info_list for LANGUAGES as languages %}
-                                {% for language in languages %}
-                                    <option value="{{ language.code }}"
-                                            {% if language.code == LANGUAGE_CODE %}
-                                            selected
-                                            {% endif %}>
-                                        {{ language.name_local }}
-                                        ({{ language.code }})
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </form>
+                         aria-labelledby="navbarDropdown" id="language-list">
+                        {% for language in languages %}
+                            <a class="dropdown-item"
+                               href="{% url 'set_language' %}"
+                               data-language-code="{{ language.code }}">
+                                {{ language.name_local }}
+                                ({{ language.code }})
+                                <img src="{% static 'build/images/flags/tr.png' %}"
+                                     class="pull-right" alt=""></a>
+                        {% endfor %}
                     </div>
                 </li>
 

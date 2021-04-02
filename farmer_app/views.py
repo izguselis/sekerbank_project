@@ -198,5 +198,6 @@ def get_context():
         "profile_page": _("Profilim"),
         "change_password": _("Şifre Değiştir"),
         "quit": _("Çıkış Yap"),
+        "language": _("Dil"),
     }
     return context

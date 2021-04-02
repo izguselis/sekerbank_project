@@ -83,7 +83,14 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.oracle',
+#         'NAME': '127.0.0.1:1521/n0jba2tkjfq20vc_db202104011127_medium.adb.oraclecloud.com',
+#         'USER': 'izguselis',
+#         'PASSWORD': 'Selis13071995'
+#     }
+# }
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 

@@ -1,27 +1,8 @@
 {% extends "farmer_app/base/header.html" %}
-{% load i18n %}
 {% block title %}
     Ana Sayfa
 {% endblock title %}
 {% block content %}
-    {% get_current_language as LANGUAGE_CODE %}
-    <form action="{% url 'set_language' %}" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="text">
-        <select name="language" id="">
-            {% get_available_languages as LANGUAGES %}
-            {% get_language_info_list for LANGUAGES as languages %}
-            {% for language in languages %}
-                <option value="{{ language.code }}"
-                        {% if language.code == LANGUAGE_CODE %} selected
-                        {% endif %}>
-                    {{ language.name_local }} ({{ language.code }})
-                </option>
-            {% endfor %}
-        </select>
-        <input type="submit" value="Go">
-    </form>
 
-    <h1>{{ hello }}</h1>
 {% endblock content %}
 

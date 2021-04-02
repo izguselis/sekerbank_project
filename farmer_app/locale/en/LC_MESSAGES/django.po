@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-02 12:56+0300\n"
+"POT-Creation-Date: 2021-04-02 12:57+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,28 +20,28 @@ msgstr ""
 
 #: .\farmer_app\views.py:195
 msgid "Giriş Ekranı"
-msgstr "Pagina de Inicio"
+msgstr "Home Page"
 
 #: .\farmer_app\views.py:196
 msgid "Kategoriler"
-msgstr "Categorias"
+msgstr "Categories"
 
 #: .\farmer_app\views.py:197
 msgid "Ürünler"
-msgstr "Productos"
+msgstr "Products"
 
 #: .\farmer_app\views.py:198
 msgid "Profilim"
-msgstr "Mi perfil"
+msgstr "My Profile"
 
 #: .\farmer_app\views.py:199
 msgid "Şifre Değiştir"
-msgstr "Cambia la contraseña"
+msgstr "Change password"
 
 #: .\farmer_app\views.py:200
 msgid "Çıkış Yap"
-msgstr "Desconectar"
+msgstr "Logout"
 
 #: .\farmer_app\views.py:201
 msgid "Dil"
-msgstr "Idioma"
+msgstr "Language"
