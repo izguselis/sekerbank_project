@@ -1,6 +1,8 @@
 from django.db import models
 import os
 from django.contrib.auth.models import User
+from multilingual_model.models import MultilingualModel, \
+    MultilingualTranslation
 
 RECEIVED = 0
 SHIPPED = 1
@@ -15,6 +17,21 @@ STATUS_CHOICES = (
 # Create your models here.
 def upload_form(instance, filename):
     return os.path.join('image/', filename)
+
+
+# class BookTranslation(MultilingualTranslation):
+#     class Meta:
+#         unique_together = ('parent', 'language_code')
+#
+#     parent = models.ForeignKey('Book', related_name='translations',
+#                                on_delete=models.SET_NULL())
+#
+#     title = models.CharField(max_length=32)
+#     description = models.TextField()
+#
+#
+# class Book(MultilingualModel):
+#     ISBN = models.IntegerField()
 
 
 class Category(models.Model):
@@ -73,36 +90,11 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(verbose_name='Miktar',
                                    default=1)
     is_ordered = models.BooleanField(default=False)
+
     # date_ordered = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.product.name_tr
-
-
-# class User(models.Model):
-#     username = models.CharField(verbose_name="Kullanıcı adı",
-#                                 max_length=50)
-#     email = models.EmailField(verbose_name="e-mail adresi",
-#                               max_length=255,
-#                               unique=True)
-#     password = models.CharField(verbose_name="Şifre",
-#                                 max_length=50)
-#     is_admin = models.BooleanField(verbose_name="Admin",
-#                                    default=False)
-#     orders = models.ManyToManyField(Product,
-#                                     blank=True)
-#
-#     def __str__(self):
-#         return self.username
-
-
-# class Profile(models.Model):
-#     user = models.OneToOneField(settings.AUTH_USER_MODEL,
-#                                 on_delete=models.CASCADE)
-#     products = models.ManyToManyField(Product, blank=True)
-#
-#     def __str__(self):
-#         return self.user.username
 
 
 class Order(models.Model):

@@ -54,6 +54,15 @@ def index(request):
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY]
     context = get_context()
+    # book = Book(ISBN="1234567890")
+    # book.save()
+    # book_en = BookTranslation(language_code='en')
+    # book_en.title = "Django for Dummies"
+    # book_en.description = "Django described in simple words."
+    # book_en.parent = book
+    # book_en.save()
+    # book_list = BookTranslation.objects.all()
+    # context.update({"book_list": book_list})
     return render(request, "farmer_app/pages/index.html", context)
 
 

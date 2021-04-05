@@ -4,10 +4,8 @@ from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
+
 # Create your views here.
-from farmer_app.models import Order
-
-
 def register(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST or None)
@@ -65,4 +63,3 @@ def reset_password(request):
         "class": "login"
     }
     return render(request, "farmer_app/pages/reset_password.html", context)
-

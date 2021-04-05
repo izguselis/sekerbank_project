@@ -81,16 +81,27 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'oracle': {
+        'ENGINE': 'django.db.backends.oracle',
+        'description': {
+            'retry_count': '20',
+            'retry_delay': '3',
+            'address': {
+                'protocol': 'tcps',
+                'port': '1522',
+                'host': 'adb.eu-frankfurt-1.oraclecloud.com',
+            },
+            'connect_data': {
+                'service_name': 'n0jba2tkjfq20vc_db202104011127_medium.adb.oraclecloud.com',
+            },
+            'security': {
+                'ssl_server_cert_dn': 'CN=adwc.eucom-central-1.oraclecloud.com,OU=Oracle BMCS FRANKFURT,O=Oracle Corporation,L=Redwood City,ST=California,C=US',
+            }
+        }
     }
 }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.oracle',
-#         'NAME': '127.0.0.1:1521/n0jba2tkjfq20vc_db202104011127_medium.adb.oraclecloud.com',
-#         'USER': 'izguselis',
-#         'PASSWORD': 'Selis13071995'
-#     }
-# }
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
