@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-02 12:56+0300\n"
+"POT-Creation-Date: 2021-04-05 15:10+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1201,4 +1201,25 @@ msgstr ""
 
 #: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:409
 msgid "Connect, get help, or contribute"
+msgstr ""
+
+#: .\venv\Lib\site-packages\modeltranslation\widgets.py:25
+msgid "None"
+msgstr ""
+
+#: .\venv\Lib\site-packages\multilingual_model\forms.py:52
+#, python-format
+msgid "No translation provided for default language '%s'."
+msgstr ""
+
+#: .\venv\Lib\site-packages\multilingual_model\forms.py:57
+msgid "At least one translation should be provided."
+msgstr ""
+
+#: .\venv\Lib\site-packages\multilingual_model\models.py:28
+msgid "language"
+msgstr ""
+
+#: .\venv\Lib\site-packages\multilingual_model\models.py:202
+msgid "Untitled"
 msgstr ""

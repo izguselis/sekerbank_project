@@ -19,19 +19,22 @@ def upload_form(instance, filename):
     return os.path.join('image/', filename)
 
 
-# class BookTranslation(MultilingualTranslation):
-#     class Meta:
-#         unique_together = ('parent', 'language_code')
-#
-#     parent = models.ForeignKey('Book', related_name='translations',
-#                                on_delete=models.SET_NULL())
-#
-#     title = models.CharField(max_length=32)
-#     description = models.TextField()
-#
-#
-# class Book(MultilingualModel):
-#     ISBN = models.IntegerField()
+class BookTranslation(MultilingualTranslation):
+    class Meta:
+        unique_together = ('parent', 'language_code')
+
+    parent = models.ForeignKey('Book', related_name='translations',
+                               on_delete=models.CASCADE)
+
+    title = models.CharField(max_length=32)
+    description = models.TextField()
+
+
+class Book(MultilingualModel):
+    ISBN = models.IntegerField()
+
+    # def __unicode__(self):
+    #     return self.unicode_wrapper('title', default='Unnamed')
 
 
 class Category(models.Model):
@@ -58,14 +61,10 @@ class Product(models.Model):
                                  related_name='p_category',
                                  null=True,
                                  blank=True)
-    name_tr = models.CharField(max_length=250,
-                               null=True,
-                               blank=True,
-                               verbose_name='Ürün Adı (TR)')
-    name_en = models.CharField(max_length=250,
-                               null=True,
-                               blank=True,
-                               verbose_name='Ürün Adı (EN)')
+    product_name = models.CharField(max_length=250,
+                            null=True,
+                            blank=True,
+                            verbose_name='Ürün Adı')
     status = models.BooleanField(default=False,
                                  verbose_name='Durumu')
     price = models.DecimalField(blank=True,

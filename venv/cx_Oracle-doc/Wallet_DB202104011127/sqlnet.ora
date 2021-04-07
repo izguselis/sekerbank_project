@@ -1,0 +1,2 @@
+WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="C:\Users\DELL\PycharmProjects\sekerbank_project\venv\cx_Oracle-doc\Wallet_DB202104011127")))
+SSL_SERVER_DN_MATCH=yes

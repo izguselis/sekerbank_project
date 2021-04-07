@@ -20,9 +20,9 @@ class ProductTable(tables.Table):
     class Meta:
         model = Product
         fields = (
-            'photo', 'category', 'name_tr', 'status', 'price', 'edit')
+            'photo', 'category', 'product_name', 'status', 'price', 'edit')
         sequence = (
-            'counter', 'photo', 'category', 'name_tr', 'status', 'price')
+            'counter', 'photo', 'category', 'product_name', 'status', 'price')
         attrs = {
             "class": "table table-striped table-bordered dt-responsive nowrap",
             "id": "datatable-responsive",
@@ -75,4 +75,14 @@ class OrderItemTable(tables.Table):
             'quantity', 'product.name_tr', 'product.price', 'edit')
         sequence = (
             'quantity', 'product.name_tr', 'product.price')
+        attrs = {"class": "table"}
+
+
+class BookTable(tables.Table):
+    class Meta:
+        model = BookTranslation
+        fields = (
+            'parent.ISBN', 'title', 'description')
+        sequence = (
+            'parent.ISBN', 'title', 'description')
         attrs = {"class": "table"}

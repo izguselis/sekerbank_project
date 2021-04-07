@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils import translation
 from django.utils.translation import gettext as _
+from django.utils.translation import get_language, activate
 
 from .extras import generate_order_id
 from .forms import *
@@ -35,6 +36,13 @@ from .tables import *
 #         # "messages": message
 #     }
 #     return render(request, "farmer_app/pages/reset_password.html", context)
+
+def translate(language):
+    cur_language = get_language()
+    try:
+        activate(language)
+    finally:
+        activate(cur_language)
 
 
 @login_required()
@@ -185,6 +193,15 @@ def purchase_cart(request):
     return redirect("farmer:index")
 
 
+def book(request):
+    cur_language = get_language()
+    book_table = BookTable(
+        BookTranslation.objects.filter(language_code=cur_language))
+    context = get_context()
+    context.update({"table": book_table})
+    return render(request, "farmer_app/pages/book.html", context)
+
+
 def get_item_count():
     items = OrderItem.objects.filter(is_ordered=False)
     return sum([item.quantity for item in items.all()])
@@ -200,10 +217,10 @@ def get_context():
     context = {
         "class": "nav-md",
         "item_count": item_count,
-        "hello": _("Merhaba"),
         "home_page": _("Giriş Ekranı"),
         "category_page": _("Kategoriler"),
         "product_page": _("Ürünler"),
+        "book_page": _("Kitaplar"),
         "profile_page": _("Profilim"),
         "change_password": _("Şifre Değiştir"),
         "quit": _("Çıkış Yap"),
