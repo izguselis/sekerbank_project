@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
+
+import cx_Oracle
 from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -76,32 +78,27 @@ WSGI_APPLICATION = 'sekerbank_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
+cx_Oracle.init_oracle_client(lib_dir=r"C:\oracle\instantclient_19_10")
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    },
-    'oracle': {
         'ENGINE': 'django.db.backends.oracle',
-        'description': {
-            'retry_count': '20',
-            'retry_delay': '3',
-            'address': {
-                'protocol': 'tcps',
-                'port': '1522',
-                'host': 'adb.eu-frankfurt-1.oraclecloud.com',
-            },
-            'connect_data': {
-                'service_name': 'n0jba2tkjfq20vc_db202104011127_medium.adb.oraclecloud.com',
-            },
-            'security': {
-                'ssl_server_cert_dn': 'CN=adwc.eucom-central-1.oraclecloud.com,OU=Oracle BMCS FRANKFURT,O=Oracle Corporation,L=Redwood City,ST=California,C=US',
-            }
-        }
+        'USER': 'admin',
+        'PASSWORD': 'Bisfora12345',
+        'NAME': 'db202104011127_high',
     }
 }
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     },
+#     'oracle': {
+#         'ENGINE': 'django.db.backends.oracle',
+#         'USER': 'admin',
+#         'PASSWORD': 'Bisfora12345',
+#         'NAME': 'db202104011127_high',
+#     }
+# }
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 

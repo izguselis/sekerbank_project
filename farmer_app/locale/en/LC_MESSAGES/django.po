@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-02 12:57+0300\n"
+"POT-Creation-Date: 2021-04-05 15:11+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,30 +18,34 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\farmer_app\views.py:195
+#: .\farmer_app\views.py:210
 msgid "Giriş Ekranı"
 msgstr "Home Page"
 
-#: .\farmer_app\views.py:196
+#: .\farmer_app\views.py:211
 msgid "Kategoriler"
 msgstr "Categories"
 
-#: .\farmer_app\views.py:197
+#: .\farmer_app\views.py:212
 msgid "Ürünler"
 msgstr "Products"
 
-#: .\farmer_app\views.py:198
+#: .\farmer_app\views.py:213
+msgid "Kitaplar"
+msgstr "Books"
+
+#: .\farmer_app\views.py:214
 msgid "Profilim"
 msgstr "My Profile"
 
-#: .\farmer_app\views.py:199
+#: .\farmer_app\views.py:215
 msgid "Şifre Değiştir"
 msgstr "Change password"
 
-#: .\farmer_app\views.py:200
+#: .\farmer_app\views.py:216
 msgid "Çıkış Yap"
 msgstr "Logout"
 
-#: .\farmer_app\views.py:201
+#: .\farmer_app\views.py:217
 msgid "Dil"
 msgstr "Language"
