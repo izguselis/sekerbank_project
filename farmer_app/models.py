@@ -3,6 +3,8 @@ import os
 from django.contrib.auth.models import User
 from multilingual_model.models import MultilingualModel, \
     MultilingualTranslation
+from translated_fields import TranslatedField
+from django.utils.translation import gettext_lazy as _
 
 RECEIVED = 0
 SHIPPED = 1
@@ -19,6 +21,18 @@ def upload_form(instance, filename):
     return os.path.join('image/', filename)
 
 
+class Question(models.Model):
+    question = TranslatedField(
+        models.CharField(_("soru"), max_length=200),
+    )
+    answer = TranslatedField(
+        models.CharField(_("cevap"), max_length=200),
+    )
+
+    def __str__(self):
+        return self.question
+
+
 class BookTranslation(MultilingualTranslation):
     class Meta:
         unique_together = ('parent', 'language_code')
@@ -33,8 +47,8 @@ class BookTranslation(MultilingualTranslation):
 class Book(MultilingualModel):
     ISBN = models.IntegerField()
 
-    # def __unicode__(self):
-    #     return self.unicode_wrapper('title', default='Unnamed')
+    def __unicode__(self):
+        return self.unicode_wrapper('title', default='Unnamed')
 
 
 class Category(models.Model):
@@ -62,9 +76,9 @@ class Product(models.Model):
                                  null=True,
                                  blank=True)
     product_name = models.CharField(max_length=250,
-                            null=True,
-                            blank=True,
-                            verbose_name='Ürün Adı')
+                                    null=True,
+                                    blank=True,
+                                    verbose_name='Ürün Adı')
     status = models.BooleanField(default=False,
                                  verbose_name='Durumu')
     price = models.DecimalField(blank=True,
@@ -79,7 +93,7 @@ class Product(models.Model):
                              verbose_name='Ürün Görseli')
 
     def __str__(self):
-        return self.name_tr
+        return self.product_name
 
 
 class OrderItem(models.Model):
@@ -93,7 +107,7 @@ class OrderItem(models.Model):
     # date_ordered = models.DateTimeField(null=True)
 
     def __str__(self):
-        return self.product.name_tr
+        return self.product.product_name
 
 
 class Order(models.Model):
@@ -104,9 +118,8 @@ class Order(models.Model):
     is_ordered = models.BooleanField(default=False)
     items = models.ManyToManyField(OrderItem)
     date_ordered = models.DateTimeField(auto_now=True)
-    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES,
-                                              default=RECEIVED
-                                              )
+    order_status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES,
+                                                    default=RECEIVED)
 
     def get_cart_items(self):
         return sum([item.quantity for item in self.items.all()])

@@ -78,27 +78,21 @@ WSGI_APPLICATION = 'sekerbank_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-cx_Oracle.init_oracle_client(lib_dir=r"C:\oracle\instantclient_19_10")
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.oracle',
-        'USER': 'admin',
-        'PASSWORD': 'Bisfora12345',
-        'NAME': 'db202104011127_high',
-    }
-}
+# cx_Oracle.init_oracle_client(lib_dir=r"C:\oracle\instantclient_19_10")
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     },
-#     'oracle': {
 #         'ENGINE': 'django.db.backends.oracle',
-#         'USER': 'admin',
-#         'PASSWORD': 'Bisfora12345',
-#         'NAME': 'db202104011127_high',
+#         'USER': 'BISFORA_TEST',
+#         'PASSWORD': 'Testfora12345',
+#         'NAME': 'db202104011127_medium',
 #     }
 # }
+DATABASES = {
+      'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 

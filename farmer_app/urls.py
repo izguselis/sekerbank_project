@@ -6,12 +6,9 @@ from django.conf import settings
 app_name = "farmer"
 
 urlpatterns = [
-                  # path('', views.login, name="login"),
                   path('', views.index, name="index"),
-                  # path('register/', views.register, name="register"),
                   # path('reset_password/', views.reset_password,
                   #      name="reset_password"),
-                  # path('profile/<user_id>', views.profile, name="profile"),
                   path('profile/', views.profile, name="profile"),
                   path('category/', views.category, name="category"),
                   path('add_category/<category_id>', views.add_category,
@@ -33,5 +30,7 @@ urlpatterns = [
                   path('purchase_cart/', views.purchase_cart,
                        name="purchase_cart"),
 
-                  path('book/', views.book, name="book"),
+                  path('question/', views.question, name="question"),
+                  path('add_question/', views.add_question,
+                       name="add_question"),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

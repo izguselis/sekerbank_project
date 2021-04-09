@@ -37,14 +37,6 @@ from .tables import *
 #     }
 #     return render(request, "farmer_app/pages/reset_password.html", context)
 
-def translate(language):
-    cur_language = get_language()
-    try:
-        activate(language)
-    finally:
-        activate(cur_language)
-
-
 @login_required()
 def profile(request):
     item_count = get_item_count()
@@ -202,6 +194,38 @@ def book(request):
     return render(request, "farmer_app/pages/book.html", context)
 
 
+# @login_required()
+# def add_book(request):
+#     form = BookForm(request.POST, request.FILES)
+#     if form.is_valid():
+#         form.save()
+#         return redirect("farmer:book")
+#
+#     context = get_context()
+#     context.update({"form": form})
+#     return render(request, 'farmer_app/pages/add_question.html', context)
+
+@login_required()
+def question(request):
+    cur_language = get_language()
+    q_table = QTable(Question.objects.all())
+    context = get_context()
+    context.update({"table": q_table})
+    return render(request, "farmer_app/pages/question.html", context)
+
+
+@login_required()
+def add_question(request):
+    form = QuestionForm(request.POST, request.FILES)
+    if form.is_valid():
+        form.save()
+        return redirect("farmer:question")
+
+    context = get_context()
+    context.update({"form": form})
+    return render(request, 'farmer_app/pages/add_question.html', context)
+
+
 def get_item_count():
     items = OrderItem.objects.filter(is_ordered=False)
     return sum([item.quantity for item in items.all()])
@@ -220,7 +244,7 @@ def get_context():
         "home_page": _("Giriş Ekranı"),
         "category_page": _("Kategoriler"),
         "product_page": _("Ürünler"),
-        "book_page": _("Kitaplar"),
+        "question_page": _("Çeviri Deneme"),
         "profile_page": _("Profilim"),
         "change_password": _("Şifre Değiştir"),
         "quit": _("Çıkış Yap"),

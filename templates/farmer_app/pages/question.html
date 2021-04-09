@@ -7,10 +7,10 @@
 
 {% block content %}
 
+    {% include "farmer_app/base/panel.html" with panel_title="Soru Listesi" add_title="Soru Ekle"  add_url="/add_question" %}
+
     {% block panel_content %}
-
         {% render_table table %}
-
     {% endblock panel_content %}
 
 {% endblock content %}

@@ -1,0 +1,25 @@
+{% extends "farmer_app/base/header.html" %}
+{% load django_tables2 %}
+{% load  widget_tweaks %}
+{% load static %}
+
+{% block title %}
+    Kitap Ekleme
+{% endblock title %}
+
+{% block content %}
+
+    {% include "farmer_app/base/panel.html" with panel_title="Soru Ekle" %}
+
+    {% block panel_content %}
+        <div class="x_content">
+            <br/>
+            <form method="post"
+                  class="form-horizontal form-label-left"
+                  enctype="multipart/form-data">
+                {% csrf_token %}
+                {% include 'includes/form.html' with form=form %}
+            </form>
+        </div>
+    {% endblock panel_content %}
+{% endblock content %}

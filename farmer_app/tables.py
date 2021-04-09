@@ -72,9 +72,9 @@ class OrderItemTable(tables.Table):
     class Meta:
         model = OrderItem
         fields = (
-            'quantity', 'product.name_tr', 'product.price', 'edit')
+            'quantity', 'product', 'product.price', 'edit')
         sequence = (
-            'quantity', 'product.name_tr', 'product.price')
+            'quantity', 'product', 'product.price')
         attrs = {"class": "table"}
 
 
@@ -85,4 +85,12 @@ class BookTable(tables.Table):
             'parent.ISBN', 'title', 'description')
         sequence = (
             'parent.ISBN', 'title', 'description')
+        attrs = {"class": "table"}
+
+
+class QTable(tables.Table):
+    class Meta:
+        model = Question
+        fields = ('question', 'answer')
+        sequence = ('question', 'answer')
         attrs = {"class": "table"}
